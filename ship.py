@@ -19,10 +19,13 @@ class Ship(pygame.sprite.Sprite):
 
         # 在飞船的属性center中储存小数值
         self.center = float(self.rect.centerx)
+        self.bottom = float(self.rect.bottom)
 
         # 移动标志
         self.moving_right = False
         self.moving_left = False
+        self.moving_up = False
+        self.moving_down = False
 
     def update(self):
         '''根据移动标志调整飞船的位置'''
@@ -30,14 +33,21 @@ class Ship(pygame.sprite.Sprite):
             self.center += self.ai_settings.ship_speed_factor
         if self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.ship_speed_factor
+        if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
+            self.bottom += self.ai_settings.ship_speed_factor
+        if self.moving_up and self.rect.top > 0:
+            self.bottom -= self.ai_settings.ship_speed_factor
+        
         
         # 根据 self.center 更新 rect 对象
         self.rect.centerx = self.center
+        self.rect.bottom = self.bottom
 
     def blitme(self):
         '''在指定位置绘制飞船'''
         self.screen.blit(self.image,self.rect)
 
     def center_ship(self):
-        '''让飞船在屏幕上居中'''
+        '''让飞船在屏幕底居中'''
         self.center = self.screen_rect.centerx
+        self.bottom = self.screen_rect.bottom

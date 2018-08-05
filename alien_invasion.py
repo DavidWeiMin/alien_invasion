@@ -34,7 +34,6 @@ def run_game():
     # 创建 Play 按钮
     play_button = Button(ai_settings,screen,'Play')
 
-    '''创建一艘飞船、一个子弹编组和一个外星人编组'''
     # 创建一艘飞船
     ship = Ship(ai_settings,screen)
     # 创建一个用于储存子弹的编组

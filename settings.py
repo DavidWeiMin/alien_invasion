@@ -15,7 +15,7 @@ class Settings():
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = 60,60,60
-        self.bullets_allowed = 6
+        self.bullets_allowed = 60
 
         # 加快游戏节奏
         self.speedup_scale = 1.05
@@ -28,7 +28,7 @@ class Settings():
     def initialize_dynamic_settings(self):
         '''初始化随游戏进行而变化的动态设置'''
         self.ship_speed_factor = 0.75
-        self.bullet_speed_factor = 1
+        self.bullet_speed_factor = 1.25
         self.alien_speed_factor = 0.5
         self.fleet_drop_speed = 0.3
 

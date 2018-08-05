@@ -11,6 +11,10 @@ def check_keydown_events(event,ai_settings,screen,sb,stats,ship,aliens,bullets):
         ship.moving_right = True
     elif event.key == pygame.K_LEFT:
         ship.moving_left = True
+    elif event.key == pygame.K_UP:
+        ship.moving_up = True
+    elif event.key == pygame.K_DOWN:
+        ship.moving_down = True
     elif event.key == pygame.K_SPACE:
         if stats.game_active:
             fire_bullet(ai_settings,screen,ship,bullets)
@@ -21,7 +25,6 @@ def check_keydown_events(event,ai_settings,screen,sb,stats,ship,aliens,bullets):
 
             # 重置游戏信息
             stats.reset_stats()
-            # stats.game_active = True
             ai_settings.initialize_dynamic_settings()
 
             # 重置记分牌图像
@@ -51,6 +54,10 @@ def check_keyup_events(event,ship):
         ship.moving_right = False
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
+    elif event.key == pygame.K_UP:
+        ship.moving_up = False
+    elif event.key == pygame.K_DOWN:
+        ship.moving_down = False
 
 def check_events(ai_settings,screen,stats,sb,play_button,ship,aliens,bullets):
     '''响应按键和鼠标事件'''
@@ -62,9 +69,6 @@ def check_events(ai_settings,screen,stats,sb,play_button,ship,aliens,bullets):
             check_keydown_events(event,ai_settings,screen,sb,stats,ship,aliens,bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event,ship)
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_x,mouse_y = pygame.mouse.get_pos()
-            check_play_button(ai_settings,screen,stats,sb,play_button,ship,aliens,bullets,mouse_x,mouse_y)
 
 def check_play_button(ai_settings,screen,stats,sb,play_button,ship,aliens,bullets,mouse_x,mouse_y):
     '''在玩家点击 Play 时开始游戏'''
@@ -140,9 +144,6 @@ def ship_hit(ai_settings,screen,stats,sb,ship,aliens,bullets):
     if stats.ships_left > 0:
         # 将 ships_left 减 1
         stats.ships_left -= 1
-
-        # 更新记分牌
-        # sb
 
         # 清空外星人列表和子弹列表
         aliens.empty()
