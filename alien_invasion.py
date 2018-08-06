@@ -21,6 +21,7 @@ from ship import Ship
 from game_stats import Game_stats
 from button import Button
 from scoreboard import Scoreboard
+# from item import Item
 import game_functions as gf
 
 def run_game():
@@ -39,6 +40,8 @@ def run_game():
     bullets = pygame.sprite.Group()
     # 创建一个外星人编组
     aliens = pygame.sprite.Group()
+    # 创建一组道具
+    # items = pygame.sprite.Group()
 
     # 创建一个用于储存游戏统计信息的对象
     stats = Game_stats(ai_settings)
