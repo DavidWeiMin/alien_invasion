@@ -25,7 +25,6 @@ class Settings():
         # 每击杀外星人 10 个给予道具奖励
         self.base = 10
         self.effect_time = 10
-        self.timekeep = {i:[] for i in range(1,5)}
 
         self.initialize_dynamic_settings()
 
@@ -37,6 +36,7 @@ class Settings():
         self.alien_speed_factor = 0.5
         self.fleet_drop_speed = 0.3
         self.energy_bullet = True
+        self.timekeep = {i:[] for i in range(1,5)}
 
         # fleet_direction 为 1 表示向右移，为 -1 表示向左移
         self.fleet_direction = 1

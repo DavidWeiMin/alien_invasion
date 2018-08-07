@@ -20,7 +20,7 @@ def ship_move(event,ship,state):
 def item_effect(event,ai_settings,stats,aliens,bullets):
     if event.key == pygame.K_1 and stats.item_1 > 0:
         stats.item_1 -= 1
-        ai_settings.bullet_width *= 2 # 飞船子弹宽度乘以 2
+        ai_settings.bullet_width *= 8 # 飞船子弹宽度乘以 8
         ai_settings.timekeep[1].append((time.time()))
     elif event.key == pygame.K_2 and stats.item_2 > 0:
         stats.item_2 -= 1
@@ -78,6 +78,7 @@ def reset_game(ai_settings,screen,stats,ship,aliens,bullets):
     # 重置游戏信息
     stats.reset_stats()
     stats.game_active = True
+    Item.count = 0
     ai_settings.initialize_dynamic_settings()
 
     # 清空外星人列表和子弹列表
@@ -97,12 +98,12 @@ def check_bullet_alien_collisions(ai_settings,screen,stats,ship,aliens,bullets,i
     if collisions:
         for aliens_hit in collisions.values():
             stats.hit_number += len(aliens_hit)
+            stats.score += ai_settings.alien_points * len(aliens_hit)
+            stats.check_highest_score()
             if stats.hit_number // ai_settings.base > Item.count:
                 item = Item(ai_settings,screen)
                 item.caculate_number()
                 items.add(item)
-            stats.score += ai_settings.alien_points * len(aliens_hit)
-            stats.check_highest_score()
 
     if len(aliens) == 0:
         # 删除现有的子弹，加快游戏节奏，并新建一群外星人
@@ -161,7 +162,7 @@ def update_items(ai_settings,screen,stats,ship,items):
             stats.item_4 += 1
         items.remove(item)
     if ai_settings.timekeep[1] and (time.time() - ai_settings.timekeep[1][0] >= ai_settings.effect_time):
-        ai_settings.bullet_width /= 2
+        ai_settings.bullet_width /= 8
         ai_settings.timekeep[1].pop(0)
     if ai_settings.timekeep[2] and (time.time() - ai_settings.timekeep[2][0] >= ai_settings.effect_time):
         ai_settings.fleet_drop_speed *= 2

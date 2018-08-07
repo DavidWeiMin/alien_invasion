@@ -37,4 +37,4 @@ if __name__=='__main__':
         print('dadad')
     a=[1,2,3]
     
-    print(a.pop(0))
+    print(10//10)
