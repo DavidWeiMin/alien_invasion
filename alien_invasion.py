@@ -3,7 +3,7 @@
 '''改进余地
 加入音效
 加入大招
-加入重新开始按钮
+加入复活后无敌时间
 保存最高分
 改进飞船移动问题（一次移动距离过大）
 加入道具（子弹射击速度，子弹长度，子弹宽度，保护罩）
@@ -21,7 +21,7 @@ from ship import Ship
 from game_stats import Game_stats
 from button import Button
 from scoreboard import Scoreboard
-# from item import Item
+from item import Item
 import game_functions as gf
 
 def run_game():
@@ -41,7 +41,7 @@ def run_game():
     # 创建一个外星人编组
     aliens = pygame.sprite.Group()
     # 创建一组道具
-    # items = pygame.sprite.Group()
+    items = pygame.sprite.Group()
 
     # 创建一个用于储存游戏统计信息的对象
     stats = Game_stats(ai_settings)
@@ -50,19 +50,20 @@ def run_game():
     sb = Scoreboard(ai_settings,screen,stats)
 
     # 创建外星人群
-    gf.create_fleet(ai_settings,screen,sb,ship,aliens)
+    gf.create_fleet(ai_settings,screen,aliens)
 
     # 开始游戏主循环
     while True:
         # 监视键盘和鼠标事件
-        gf.check_events(ai_settings,screen,stats,sb,play_button,ship,aliens,bullets)
+        gf.check_events(ai_settings,screen,stats,play_button,ship,aliens,bullets)
         
         if stats.game_active:
             # 更新状态
             ship.update()
-            gf.update_bullets(ai_settings,screen,stats,sb,ship,aliens,bullets)
-            gf.update_aliens(ai_settings,screen,stats,sb,ship,aliens,bullets)
+            gf.update_bullets(ai_settings,screen,stats,sb,ship,aliens,bullets,items)
+            gf.update_items(ai_settings,screen,stats,ship,items)
+            gf.update_aliens(ai_settings,screen,stats,ship,aliens,bullets)
             
-        gf.update_screen(ai_settings,screen,stats,sb,ship,aliens,bullets,play_button)
+        gf.update_screen(ai_settings,screen,stats,sb,ship,aliens,bullets,play_button,items) 
 
 run_game()

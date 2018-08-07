@@ -1,3 +1,4 @@
+import time
 class Settings():
     '''存储《外星人入侵》的所有设置的类'''
 
@@ -20,7 +21,11 @@ class Settings():
         # 加快游戏节奏
         self.speedup_scale = 1.05
         # 击中外星人得分的提高速度
-        self.score_scale = 1.5
+        self.score_scale = 1.1
+        # 每击杀外星人 10 个给予道具奖励
+        self.base = 10
+        self.effect_time = 10
+        self.timekeep = {i:[] for i in range(1,5)}
 
         self.initialize_dynamic_settings()
 
@@ -31,6 +36,7 @@ class Settings():
         self.bullet_speed_factor = 1.25
         self.alien_speed_factor = 0.5
         self.fleet_drop_speed = 0.3
+        self.energy_bullet = True
 
         # fleet_direction 为 1 表示向右移，为 -1 表示向左移
         self.fleet_direction = 1
@@ -44,5 +50,5 @@ class Settings():
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
         self.fleet_drop_speed *= self.speedup_scale
-        self.alien_points = int(self.score_scale * self.alien_points)
+        self.alien_points = self.score_scale * self.alien_points
 

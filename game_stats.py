@@ -17,4 +17,14 @@ class Game_stats():
         self.ships_left = self.ai_settings.ship_limit
         self.score = 0
         self.level = 1
+        self.item_1 = 0
+        self.item_2 = 0
+        self.item_3 = 0
+        self.item_4 = 0
+        self.hit_number = 0
+    
+    def check_highest_score(self):
+        '''检测是否诞生了新的最高得分'''
+        if self.score > self.highest_score:
+            self.highest_score = self.score
         

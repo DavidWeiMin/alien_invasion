@@ -1,4 +1,5 @@
 from floating import Floating
+import pygame
 
 class Alien(Floating):
     '''表示单个外星人的类'''
@@ -9,7 +10,7 @@ class Alien(Floating):
         self.initial()
 
     def load_image(self):
-        self.image = pygame.image.load('images/alien.bmp')
+        self.image = pygame.image.load('images/alien.png')
         self.rect = self.image.get_rect()
 
     def check_floatings_bottom(self,floatings):
@@ -30,3 +31,10 @@ class Alien(Floating):
             if floating.check_edges():
                 self.change_fleet_direction(floatings)
                 break
+
+if __name__=='__main__':
+    if [] and True:
+        print('dadad')
+    a=[1,2,3]
+    
+    print(a.pop(0))

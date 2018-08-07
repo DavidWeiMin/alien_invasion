@@ -16,13 +16,13 @@ class Floating(pygame.sprite.Sprite):
         self.position()
 
     def load_image(self):
-        self.image = pygame.image.load('images/alien.bmp')
+        self.image = pygame.image.load('images/alien.png')
         self.rect = self.image.get_rect()
 
     def position(self):
         # 给出物体位置
         self.rect.x = random.randint(0,self.ai_settings.screen_width - self.rect.width)
-        self.rect.y = random.randint(15,self.screen_height - self.rect.height)
+        self.rect.y = random.randint(15,self.screen_rect.height - self.rect.height)
         # 存储物体的准确位置
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
