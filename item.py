@@ -14,10 +14,6 @@ class Item(Alien):
     def load_image(self):
         self.image = pygame.image.load('images/item' + str(self.kind) + '.png')
         self.rect = self.image.get_rect()
-    
-    def set_random_kind(self):
-        '''随机产生道具种类'''
-        self.kind = random.choice([1,2,3])
 
     def set_kind(self,kind):
         '''手动设置道具种类'''
@@ -26,5 +22,14 @@ class Item(Alien):
     def caculate_number(self):
         '''统计累计产生道具的数量'''
         Item.count += 1
+
+    def change_floating_direction(self,floatings):
+        '''将整群外星人向下移，并改变它们的方向'''
+        for floating in floatings.sprites():
+            floating.rect.y += self.ai_settings.floating_drop_speed
+        self.ai_settings.item_direction *= -1
+    
+    def update_direction(self):
+        self.x += self.ai_settings.alien_speed_factor * self.ai_settings.item_direction
     
         

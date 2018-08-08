@@ -22,7 +22,7 @@ class Floating(pygame.sprite.Sprite):
     def position(self):
         # 给出物体位置
         self.rect.x = random.randint(0,self.ai_settings.screen_width - self.rect.width)
-        self.rect.y = random.randint(15,self.screen_rect.height - self.rect.height)
+        self.rect.y = random.randint(39,42)
         # 存储物体的准确位置
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
@@ -40,9 +40,13 @@ class Floating(pygame.sprite.Sprite):
 
     def update(self):
         '''向左或向右移动物体'''
-        self.x += self.ai_settings.alien_speed_factor * self.ai_settings.fleet_direction
+        self.update_direction()
         self.rect.x = self.x
-        self.y += self.ai_settings.fleet_drop_speed
+        self.y += self.ai_settings.floating_drop_speed
         self.rect.y = self.y
+    
+    def update_direction(self):
+        '''个性化移动方向'''
+        self.x += self.ai_settings.alien_speed_factor * self.ai_settings.alien_direction
 
 

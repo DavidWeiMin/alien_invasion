@@ -19,17 +19,17 @@ class Alien(Floating):
             if floating.rect.bottom >= self.screen_rect.bottom:
                 floatings.remove(floating)
 
-    def change_fleet_direction(self,floatings):
+    def change_floating_direction(self,floatings):
         '''将整群外星人向下移，并改变它们的方向'''
         for floating in floatings.sprites():
-            floating.rect.y += self.ai_settings.fleet_drop_speed
-        self.ai_settings.fleet_direction *= -1
+            floating.rect.y += self.ai_settings.floating_drop_speed
+        self.ai_settings.alien_direction *= -1
 
-    def check_fleet_edges(self,floatings):
+    def check_floating_edges(self,floatings):
         '''有外星人到达边界采取相应的措施'''
         for floating in floatings.sprites():
             if floating.check_edges():
-                self.change_fleet_direction(floatings)
+                self.change_floating_direction(floatings)
                 break
 
 if __name__=='__main__':

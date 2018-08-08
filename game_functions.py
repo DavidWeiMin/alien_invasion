@@ -24,7 +24,7 @@ def item_effect(event,ai_settings,stats,aliens,bullets):
         ai_settings.timekeep[1].append((time.time()))
     elif event.key == pygame.K_2 and stats.item_2 > 0:
         stats.item_2 -= 1
-        ai_settings.fleet_drop_speed /= 2 # 外星人下降速度除以 2
+        ai_settings.floating_drop_speed /= 2 # 外星人下降速度除以 2
         ai_settings.timekeep[2].append((time.time()))
     elif event.key == pygame.K_3 and stats.item_3 > 0:
         stats.item_3 -= 1
@@ -86,6 +86,7 @@ def reset_game(ai_settings,screen,stats,ship,aliens,bullets):
     bullets.empty()
 
     # 创建一群新的外星人，并将飞船放到屏幕底端中央
+    stats.create_alien_time = time.time()
     create_fleet(ai_settings,screen,aliens)
     ship.center_ship()
 
@@ -104,14 +105,8 @@ def check_bullet_alien_collisions(ai_settings,screen,stats,ship,aliens,bullets,i
                 item = Item(ai_settings,screen)
                 item.caculate_number()
                 items.add(item)
-
-    if len(aliens) == 0:
-        # 删除现有的子弹，加快游戏节奏，并新建一群外星人
-        bullets.empty()
-        # 提高游戏等级
-        ai_settings.increase_speed()
-        stats.level += 1
-        create_fleet(ai_settings,screen,aliens)
+                ai_settings.increase_speed()
+                stats.level += 1
 
 def update_bullets(ai_settings,screen,stats,sb,ship,aliens,bullets,items):
     # 更新子弹的位置
@@ -134,6 +129,7 @@ def ship_hit(ai_settings,screen,stats,ship,aliens,bullets):
         bullets.empty()
 
         # 创建一群新的外星人，并将飞船放到屏幕底端中央
+        stats.create_alien_time = time.time()
         create_fleet(ai_settings,screen,aliens)
         ship.center_ship()
 
@@ -146,7 +142,7 @@ def ship_hit(ai_settings,screen,stats,ship,aliens,bullets):
 def update_items(ai_settings,screen,stats,ship,items):
     '''更新道具'''
     if len(items.sprites()) > 0:
-        items.sprites()[0].check_fleet_edges(items)
+        items.sprites()[0].check_floating_edges(items)
         items.sprites()[0].check_floatings_bottom(items)
     items.update()
 
@@ -165,7 +161,7 @@ def update_items(ai_settings,screen,stats,ship,items):
         ai_settings.bullet_width /= 8
         ai_settings.timekeep[1].pop(0)
     if ai_settings.timekeep[2] and (time.time() - ai_settings.timekeep[2][0] >= ai_settings.effect_time):
-        ai_settings.fleet_drop_speed *= 2
+        ai_settings.floating_drop_speed *= 2
         ai_settings.timekeep[2].pop(0)
     if ai_settings.timekeep[3] and (time.time() - ai_settings.timekeep[3][0] >= ai_settings.effect_time):
         ai_settings.energy_bullet = True
@@ -174,7 +170,7 @@ def update_items(ai_settings,screen,stats,ship,items):
 def update_aliens(ai_settings,screen,stats,ship,aliens,bullets):
     '''检查是否有外星人位于屏幕边缘，并更新外星人群中所有外星人的位置'''
     alien = Alien(ai_settings,screen)
-    alien.check_fleet_edges(aliens)
+    alien.check_floating_edges(aliens)
     # 检查是否有外星人到达屏幕底端
     alien.check_floatings_bottom(aliens)
     aliens.update()
@@ -182,6 +178,10 @@ def update_aliens(ai_settings,screen,stats,ship,aliens,bullets):
     # 检测外星人与飞船之间的碰撞
     if pygame.sprite.spritecollideany(ship,aliens):
         ship_hit(ai_settings,screen,stats,ship,aliens,bullets)
+    
+    if time.time() - stats.create_alien_time > 1 / ai_settings.speedup_scale ** 2:
+        stats.create_alien_time = time.time()
+        create_fleet(ai_settings,screen,aliens)
 
 def update_screen(ai_settings,screen,stats,sb,ship,aliens,bullets,play_button,items):
     '''更新屏幕上的图像'''
@@ -207,7 +207,5 @@ def update_screen(ai_settings,screen,stats,sb,ship,aliens,bullets,play_button,it
 
 def create_fleet(ai_settings,screen,aliens):
     '''创建外星人群'''
-    for i in range(3):
-        for j in range(3):
-            alien = Alien(ai_settings,screen)
-            aliens.add(alien)
+    alien = Alien(ai_settings,screen)
+    aliens.add(alien)

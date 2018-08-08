@@ -34,12 +34,13 @@ class Settings():
         self.ship_speed_factor = 0.75
         self.bullet_speed_factor = 1.25
         self.alien_speed_factor = 0.5
-        self.fleet_drop_speed = 0.3
+        self.floating_drop_speed = 0.3
         self.energy_bullet = True
         self.timekeep = {i:[] for i in range(1,5)}
 
-        # fleet_direction 为 1 表示向右移，为 -1 表示向左移
-        self.fleet_direction = 1
+        # 1 表示向右移，为 -1 表示向左移
+        self.alien_direction = 1
+        self.item_direction = 1
 
         # 计分
         self.alien_points = 10
@@ -49,6 +50,6 @@ class Settings():
         self.ship_speed_factor *= self.speedup_scale
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
-        self.fleet_drop_speed *= self.speedup_scale
+        self.floating_drop_speed *= self.speedup_scale
         self.alien_points = self.score_scale * self.alien_points
 
