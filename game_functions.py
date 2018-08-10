@@ -58,7 +58,8 @@ def check_keydown_events(event,ai_settings,screen,stats,ship,aliens,bullets,stat
             fire_bullet(ai_settings,screen,stats,ship,bullets)
         else:
             reset_game(ai_settings,screen,stats,ship,aliens,bullets,items)
-            play_bgm()
+            stats.which = random.choice(ai_settings.play_list)
+            play_bgm(stats)
             # stats.player_name = input('please enter your account:\n')
             # sleep(3)
     elif event.key == pygame.K_p:
@@ -70,14 +71,14 @@ def check_keydown_events(event,ai_settings,screen,stats,ship,aliens,bullets,stat
     elif event.key == pygame.K_q:
         sys.exit()
     elif event.key == pygame.K_HOME:
-        if pygame.mixer.music.get_busy(): 
+        if pygame.mixer.music.get_busy() == 1: 
             pygame.mixer.music.pause()
         else:
             pygame.mixer.music.unpause()
     elif event.key == pygame.K_PAGEUP:
-        play_last()
+        play_last(stats)
     elif event.key == pygame.K_PAGEDOWN:
-        play_next()
+        play_next(stats)
     item_effect(event,ai_settings,screen,stats,aliens,bullets,items)
 
 def fire_bullet(ai_settings,screen,stats,ship,bullets):
@@ -255,23 +256,27 @@ def create_fleet(ai_settings,screen,stats,aliens):
     aliens.add(alien)
     stats.generate_alien_number += 1
 
-def play_bgm():
-    which = random.randint(1,11)
-    pygame.mixer.music.load('sounds/background music' + str(which) + '.mp3')
+def play_bgm(stats):
+    pygame.mixer.music.load('sounds/background music' + str(stats.which % len(stats.ai_settings.play_list)) + '.mp3')
     pygame.mixer.music.play(loops=100,start=0)
 
-def play_last():
-    pass
+def play_last(stats):
+    stats.which -= 1
+    pygame.mixer.music.stop()
+    play_bgm(stats)
 
-def play_next():
-    pass
+def play_next(stats):
+    stats.which += 1
+    pygame.mixer.music.stop()
+    play_bgm(stats)
 
 def play_die():
     pygame.mixer.music.load('sounds/die music.mp3')
-    pygame.mixer.music.play(loops=0,start=90.6)
-    sleep(10.83)
+    pygame.mixer.music.play(loops=100,start=90.6)
+    sleep(2)
 
 if __name__=='__main__':
-    pygame.mixer.init()
-    play_die()
+    # pygame.mixer.init()
+    # play_die()
+    print(-0%11)
     

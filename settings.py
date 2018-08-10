@@ -13,10 +13,8 @@ class Settings():
         self.ship_limit = 1
 
         # 子弹设置
-        self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = 60,60,60
-        self.bullets_allowed = 8
 
         # 加快游戏节奏
         self.speedup_scale = 1.05
@@ -25,7 +23,7 @@ class Settings():
         # 每击杀外星人 10 个给予道具奖励
         self.award_base = 25
         self.level_base = 10
-        self.effect_time = 10
+        self.effect_time = 10 # todo加入道具可以使其他道具的效果时间延长
 
         # 无敌时间
         self.unstoppable_time = 3
@@ -34,15 +32,15 @@ class Settings():
         self.filename = 'game_data.csv'
 
         # 背景音乐播放设置
-        # self.next
-        # self.last
-        # self.pause = 
+        self.play_list = range(11)
 
         self.initialize_dynamic_settings()
 
 
     def initialize_dynamic_settings(self):
         '''初始化随游戏进行而变化的动态设置'''
+        self.bullet_width = 3
+        self.bullets_allowed = 8
         self.ship_speed_factor = 0.75
         self.bullet_speed_factor = 1.25
         self.alien_speed_factor = 0.5

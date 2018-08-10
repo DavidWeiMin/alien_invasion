@@ -74,7 +74,7 @@ class Scoreboard():
             self.ships.add(self.ship)
 
     def prep_item(self):
-        '''准备道具图像'''
+        '''准备道具图像'''#todo 道具5图像加入
         self.items = pygame.sprite.Group()
         item_collection = [self.stats.item_1,self.stats.item_2,self.stats.item_3,self.stats.item_4]
         for kind,number in enumerate(item_collection):

@@ -40,6 +40,7 @@ class Game_stats():
         self.player_name = 'dwm'
         self.game_start_time = time()
         self.game_over_time = 0
+        self.which = 1
     
     def check_highest_score(self):
         '''检测是否诞生了新的最高得分'''
