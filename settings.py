@@ -10,7 +10,7 @@ class Settings():
         self.bg_color = (230,230,230)
 
         # 飞船的设置
-        self.ship_limit = 2
+        self.ship_limit = 1
 
         # 子弹设置
         self.bullet_width = 3
@@ -32,6 +32,11 @@ class Settings():
 
         # 游戏数据文件保存地址
         self.filename = 'game_data.csv'
+
+        # 背景音乐播放设置
+        # self.next
+        # self.last
+        # self.pause = 
 
         self.initialize_dynamic_settings()
 

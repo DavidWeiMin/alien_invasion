@@ -58,12 +58,26 @@ def check_keydown_events(event,ai_settings,screen,stats,ship,aliens,bullets,stat
             fire_bullet(ai_settings,screen,stats,ship,bullets)
         else:
             reset_game(ai_settings,screen,stats,ship,aliens,bullets,items)
+            play_bgm()
             # stats.player_name = input('please enter your account:\n')
             # sleep(3)
     elif event.key == pygame.K_p:
+        if stats.game_active:
+            pygame.mixer.music.pause()
+        else:
+            pygame.mixer.music.unpause()
         stats.game_active = not stats.game_active
     elif event.key == pygame.K_q:
         sys.exit()
+    elif event.key == pygame.K_HOME:
+        if pygame.mixer.music.get_busy(): 
+            pygame.mixer.music.pause()
+        else:
+            pygame.mixer.music.unpause()
+    elif event.key == pygame.K_PAGEUP:
+        play_last()
+    elif event.key == pygame.K_PAGEDOWN:
+        play_next()
     item_effect(event,ai_settings,screen,stats,aliens,bullets,items)
 
 def fire_bullet(ai_settings,screen,stats,ship,bullets):
@@ -149,11 +163,13 @@ def ship_hit(ai_settings,screen,stats,ship,aliens,bullets):
         stats.ships_left -= 1
         sleep(0.5)
     else:
+        pygame.mixer.music.stop()
         stats.game_over_time = time()
         stats.save_stats()
         stats.game_active = False
         pygame.mouse.set_visible(True)
-        sleep(3)
+        play_die()
+        # sleep(3)
 
 def update_items(ai_settings,screen,stats,ship,items):
     '''更新道具'''
@@ -238,3 +254,24 @@ def create_fleet(ai_settings,screen,stats,aliens):
     alien = Alien(ai_settings,screen)
     aliens.add(alien)
     stats.generate_alien_number += 1
+
+def play_bgm():
+    which = random.randint(1,11)
+    pygame.mixer.music.load('sounds/background music' + str(which) + '.mp3')
+    pygame.mixer.music.play(loops=100,start=0)
+
+def play_last():
+    pass
+
+def play_next():
+    pass
+
+def play_die():
+    pygame.mixer.music.load('sounds/die music.mp3')
+    pygame.mixer.music.play(loops=0,start=90.6)
+    sleep(10.83)
+
+if __name__=='__main__':
+    pygame.mixer.init()
+    play_die()
+    

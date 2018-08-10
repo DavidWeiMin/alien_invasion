@@ -37,7 +37,7 @@ class Game_stats():
         self.generate_bullet_number = 0
         self.bullet_killed_number = 0
         self.die_time = [time()]
-        self.player_name = 'wyt'
+        self.player_name = 'dwm'
         self.game_start_time = time()
         self.game_over_time = 0
     
@@ -69,12 +69,12 @@ class Game_stats():
         self.stats_analysis()
         with open(self.ai_settings.filename,'a') as f:
             # f.write('玩家,开始时间,结束时间,持续时间,得分,等级,击杀数,击杀率,道具产生,道具获取,道具拾取率,道具1,道具2,道具3,道具4,道具5,道具6,发射子弹,子弹击中,击中率,')
-            for i in range(len(self.die_time)):
-                # f.write('第 ' + str(i + 1) + ' 次死亡')
-                if i + 1 < len(self.die_time):
-                    f.write(',')
-                else:
-                    f.write('\n')
+            # for i in range(len(self.die_time)):
+            #     f.write('第 ' + str(i + 1) + ' 次死亡')
+            #     if i + 1 < len(self.die_time):
+            #         f.write(',')
+            #     else:
+            #         f.write('\n')
             f.write(str(self.player_name) + ',')
             f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_start_time)) + ',')
             f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_over_time)) + ',')
@@ -102,4 +102,4 @@ class Game_stats():
                 else:
                     f.write('\n')
     # add 敲击键盘总次数，上下左右射击次数，
-        
+
