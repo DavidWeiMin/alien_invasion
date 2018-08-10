@@ -2,20 +2,17 @@
 
 '''改进余地
 加入背景音效、击杀音效、道具拾取音效、死亡音效
-加入加命道具
-改进外星人出现方式
-加入三列子弹道具
 加入大招
 加入复活后无敌时间
 加入向上飞行效果
 保存最高分
-改进飞船移动问题（一次移动距离过大）
 加入设置按钮
 设计自动射击，无限子弹模式
 加入外星人射击
 设计不同类型的外星人，不同的外星人得分不同
 设计飞船护甲
 双人模式
+根据代码规范完善代码格式
 '''
 
 import pygame
@@ -25,7 +22,7 @@ from game_stats import Game_stats
 from button import Button
 from scoreboard import Scoreboard
 from item import Item
-import time
+from time import time
 import game_functions as gf
 
 def run_game():
@@ -54,13 +51,13 @@ def run_game():
     sb = Scoreboard(ai_settings,screen,stats)
 
     # 创建外星人群
-    stats.create_alien_time = time.time()
-    gf.create_fleet(ai_settings,screen,aliens)
+    stats.create_alien_time = time()
+    gf.create_fleet(ai_settings,screen,stats,aliens)
 
     # 开始游戏主循环
     while True:
         # 监视键盘和鼠标事件
-        gf.check_events(ai_settings,screen,stats,play_button,ship,aliens,bullets)
+        gf.check_events(ai_settings,screen,stats,play_button,ship,aliens,bullets,items)
         
         if stats.game_active:
             # 更新状态

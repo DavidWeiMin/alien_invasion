@@ -31,10 +31,3 @@ class Alien(Floating):
             if floating.check_edges():
                 self.change_floating_direction(floatings)
                 break
-
-if __name__=='__main__':
-    if [] and True:
-        print('dadad')
-    a=[1,2,3]
-    
-    print(10//10)

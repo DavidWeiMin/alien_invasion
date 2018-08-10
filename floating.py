@@ -22,7 +22,7 @@ class Floating(pygame.sprite.Sprite):
     def position(self):
         # 给出物体位置
         self.rect.x = random.randint(0,self.ai_settings.screen_width - self.rect.width)
-        self.rect.y = random.randint(39,42)
+        self.rect.y = random.randint(10 + self.rect.height,10 + self.rect.height + 16)
         # 存储物体的准确位置
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)

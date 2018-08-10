@@ -8,7 +8,7 @@ class Item(Alien):
 
     def __init__(self,ai_settings,screen):
         '''初始化道具并设置其起始位置'''
-        self.kind = random.choice([1,2,3])
+        self.kind = random.choice(range(1,7))
         super(Item,self).__init__(ai_settings,screen)
 
     def load_image(self):

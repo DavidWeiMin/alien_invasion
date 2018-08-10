@@ -35,7 +35,7 @@ class Ship(Floating):
             self.center -= self.ai_settings.ship_speed_factor
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.bottom += self.ai_settings.ship_speed_factor
-        if self.moving_up and self.rect.top > 0:
+        if self.moving_up and self.rect.top > 10 + self.rect.height:
             self.bottom -= self.ai_settings.ship_speed_factor
         
         # 根据 self.center 更新 rect 对象

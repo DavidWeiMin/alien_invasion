@@ -55,7 +55,7 @@ class Scoreboard():
     
     def prep_hits(self):
         '''将击杀数转换为渲染的图像'''
-        self.hits_image = self.font.render('Hits:%s' % str(self.stats.hit_number),True,self.text_color,self.ai_settings.bg_color)
+        self.hits_image = self.font.render('Kill:%s' % str(self.stats.killed_number),True,self.text_color,self.ai_settings.bg_color)
 
         # 设置击杀数图像位置
         self.hits_rect = self.hits_image.get_rect()
@@ -66,7 +66,9 @@ class Scoreboard():
         '''显示还余下多少飞船'''
         self.ships = pygame.sprite.Group()
         for ship_number in range(self.stats.ships_left):
-            self.ship = Ship(self.ai_settings,self.screen)
+            self.ship = Ship(self.ai_settings,self.screen)#key 当飞船剩余0时，需要使用飞船的宽度，同时还可以将非循环代码移出循环
+            self.ship.image = pygame.image.load('images/item6.png')
+            self.ship.rect = self.ship.image.get_rect()
             self.ship.rect.x = 10 + ship_number * self.ship.rect.width
             self.ship.rect.y = 10
             self.ships.add(self.ship)
@@ -77,7 +79,10 @@ class Scoreboard():
         item_collection = [self.stats.item_1,self.stats.item_2,self.stats.item_3,self.stats.item_4]
         for kind,number in enumerate(item_collection):
             if len(self.items.sprites()) == 0:
-                seperation = self.stats.ships_left * self.ship.rect.width + 20
+                if self.stats.ships_left > 0:#alert 如果没有命了就会导致ship对象不存在
+                    seperation = self.stats.ships_left * self.ship.rect.width + 20
+                else:
+                    seperation = 10
             else:
                 seperation = self.items.sprites()[-1].rect.right + 10
             for item_number in range(number):
@@ -87,6 +92,7 @@ class Scoreboard():
                 item.rect.x = seperation + item_number * item.rect.width
                 item.rect.y = 10
                 self.items.add(item)
+    # todo 在屏幕上显示当前玩家与游戏持续时间，显示当前已经产生外星人数量与击杀率
     
     def prep_all(self):
         '''准备所有图像'''
