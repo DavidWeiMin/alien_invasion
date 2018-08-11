@@ -23,7 +23,6 @@ class Settings():
         # 每击杀外星人 10 个给予道具奖励
         self.award_base = 25
         self.level_base = 10
-        self.effect_time = 10 # todo加入道具可以使其他道具的效果时间延长
 
         # 无敌时间
         self.unstoppable_time = 3
@@ -32,7 +31,7 @@ class Settings():
         self.filename = 'game_data.csv'
 
         # 背景音乐播放设置
-        self.play_list = range(11)
+        self.play_list = range(1)
 
         self.initialize_dynamic_settings()
 
@@ -47,6 +46,7 @@ class Settings():
         self.floating_drop_speed = 0.4
         self.energy_bullet = True
         self.timekeep = {i:[] for i in range(1,7)}
+        self.effect_time = 10 # todo加入道具可以使其他道具的效果时间延长
 
         # 1 表示向右移，为 -1 表示向左移
         self.alien_direction = 1
