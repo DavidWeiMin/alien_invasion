@@ -74,9 +74,9 @@ class Scoreboard():
             self.ships.add(self.ship)
 
     def prep_item(self):
-        '''准备道具图像'''
+        '''准备道具图像'''#todo 道具5图像加入
         self.items = pygame.sprite.Group()
-        item_collection = [self.stats.item_1,self.stats.item_2,self.stats.item_3,self.stats.item_4]
+        item_collection = [self.stats.item_1,self.stats.item_2,self.stats.item_3,self.stats.item_4,self.stats.item_5]
         for kind,number in enumerate(item_collection):
             if len(self.items.sprites()) == 0:
                 if self.stats.ships_left > 0:#alert 如果没有命了就会导致ship对象不存在
