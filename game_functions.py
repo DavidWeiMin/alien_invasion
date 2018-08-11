@@ -7,14 +7,18 @@ from item import Item
 import random
 from time import time
 
-def ship_move(event,ship,state):
+def ship_move(event,stats,ship,state):
     if event.key == pygame.K_RIGHT:
+        stats.key_right += 1
         ship.moving_right = state
     elif event.key == pygame.K_LEFT:
+        stats.key_left += 1
         ship.moving_left = state
     elif event.key == pygame.K_UP:
+        stats.key_up += 1
         ship.moving_up = state
     elif event.key == pygame.K_DOWN:
+        stats.key_down += 1
         ship.moving_down = state
 
 def item_effect(event,ai_settings,screen,stats,aliens,bullets,items):
@@ -47,23 +51,40 @@ def item_effect(event,ai_settings,screen,stats,aliens,bullets,items):
             stats.level += 1
     elif event.key == pygame.K_5 and stats.item_5 > 0:
         stats.item_5 -= 1
-        ai_settings.bullets_allowed *= 2
+        ai_settings.effect_time *= 2
         ai_settings.timekeep[5].append((time()))
 
 def check_keydown_events(event,ai_settings,screen,stats,ship,aliens,bullets,state,items):
     '''响应按键'''
-    ship_move(event,ship,state)
+    stats.key += 1
+    ship_move(event,stats,ship,state)
     if event.key == pygame.K_SPACE:
         if stats.game_active:
             fire_bullet(ai_settings,screen,stats,ship,bullets)
         else:
             reset_game(ai_settings,screen,stats,ship,aliens,bullets,items)
+            stats.which = random.choice(ai_settings.play_list)
+            play_bgm(stats)
             # stats.player_name = input('please enter your account:\n')
             # sleep(3)
     elif event.key == pygame.K_p:
+        if stats.game_active:
+            pygame.mixer.music.pause()
+        else:
+            pygame.mixer.music.unpause()
         stats.game_active = not stats.game_active
     elif event.key == pygame.K_q:
         sys.exit()
+    elif event.key == pygame.K_HOME:
+        if stats.play_music:
+            pygame.mixer.music.pause()
+        else:
+            pygame.mixer.music.unpause()
+        stats.play_music = not stats.play_music
+    elif event.key == pygame.K_PAGEUP:# todo 游戏未开始时不能窃歌
+        play_last(stats)
+    elif event.key == pygame.K_PAGEDOWN:# todo 游戏未开始时不能窃歌
+        play_next(stats)
     item_effect(event,ai_settings,screen,stats,aliens,bullets,items)
 
 def fire_bullet(ai_settings,screen,stats,ship,bullets):
@@ -74,9 +95,9 @@ def fire_bullet(ai_settings,screen,stats,ship,bullets):
         bullets.add(new_bullet)
         stats.generate_bullet_number += 1
 
-def check_keyup_events(event,ship,state):
+def check_keyup_events(event,stats,ship,state):
     '''响应松开'''
-    ship_move(event,ship,state)
+    ship_move(event,stats,ship,state)
 
 def check_events(ai_settings,screen,stats,play_button,ship,aliens,bullets,items):
     '''响应按键和鼠标事件'''
@@ -87,7 +108,7 @@ def check_events(ai_settings,screen,stats,play_button,ship,aliens,bullets,items)
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(event,ai_settings,screen,stats,ship,aliens,bullets,True,items)
         elif event.type == pygame.KEYUP:
-            check_keyup_events(event,ship,False)
+            check_keyup_events(event,stats,ship,False)
 
 def reset_game(ai_settings,screen,stats,ship,aliens,bullets,items):
     # 隐藏光标
@@ -149,11 +170,13 @@ def ship_hit(ai_settings,screen,stats,ship,aliens,bullets):
         stats.ships_left -= 1
         sleep(0.5)
     else:
+        pygame.mixer.music.stop()
         stats.game_over_time = time()
         stats.save_stats()
         stats.game_active = False
         pygame.mouse.set_visible(True)
-        sleep(3)
+        play_die()
+        # sleep(3)
 
 def update_items(ai_settings,screen,stats,ship,items):
     '''更新道具'''
@@ -183,6 +206,9 @@ def update_items(ai_settings,screen,stats,ship,items):
             stats.ships_left += 1
             stats.item_6 += 1
         items.remove(item)
+    if ai_settings.timekeep[5] and (time() - ai_settings.timekeep[5][0] >= ai_settings.effect_time):
+        ai_settings.effect_time /= 2
+        ai_settings.timekeep[5].pop(0)
     if ai_settings.timekeep[1] and (time() - ai_settings.timekeep[1][0] >= ai_settings.effect_time):
         ai_settings.bullet_width /= 8
         ai_settings.timekeep[1].pop(0)
@@ -192,9 +218,7 @@ def update_items(ai_settings,screen,stats,ship,items):
     if ai_settings.timekeep[3] and (time() - ai_settings.timekeep[3][0] >= ai_settings.effect_time):
         ai_settings.energy_bullet = True
         ai_settings.timekeep[3].pop(0)
-    if ai_settings.timekeep[5] and (time() - ai_settings.timekeep[5][0] >= ai_settings.effect_time):
-        ai_settings.bullets_allowed /= 2
-        ai_settings.timekeep[5].pop(0)
+
 def update_aliens(ai_settings,screen,stats,ship,aliens,bullets):
     '''检查是否有外星人位于屏幕边缘，并更新外星人群中所有外星人的位置'''
     alien = Alien(ai_settings,screen)
@@ -238,3 +262,30 @@ def create_fleet(ai_settings,screen,stats,aliens):
     alien = Alien(ai_settings,screen)
     aliens.add(alien)
     stats.generate_alien_number += 1
+
+def play_bgm(stats):
+    pygame.mixer.music.load('sounds/background music' + str(stats.which % len(stats.ai_settings.play_list)) + '.mp3')
+    pygame.mixer.music.play(loops=-1,start=0)
+
+def play_last(stats):
+    stats.which -= 1
+    pygame.mixer.music.stop()
+    play_bgm(stats)
+
+def play_next(stats):
+    stats.which += 1
+    pygame.mixer.music.stop()
+    play_bgm(stats)
+
+def play_die():
+    pygame.mixer.music.load('sounds/die music.mp3')
+    pygame.mixer.music.play(loops=-1,start=90.6)
+    sleep(3)
+
+if __name__=='__main__':
+    pygame.mixer.init()
+    play_die()
+    print(pygame.mixer.music.get_busy())
+    pygame.mixer.music.pause()
+    pygame.mixer.music.unpause()
+    
