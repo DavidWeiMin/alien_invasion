@@ -10,6 +10,8 @@ class Alien(Floating):
         self.initial()
 
     def load_image(self):
+        self.alien_bullets = pygame.sprite.Group()
+        self.fire_time = 0
         self.image = pygame.image.load('images/alien.png')
         self.rect = self.image.get_rect()
 

@@ -14,6 +14,7 @@ class Settings():
 
         # 子弹设置
         self.bullet_height = 15
+        self.alien_bullet_width = 3
         self.bullet_color = 60,60,60
 
         # 加快游戏节奏
@@ -38,8 +39,9 @@ class Settings():
 
     def initialize_dynamic_settings(self):
         '''初始化随游戏进行而变化的动态设置'''
-        self.bullet_width = 3
-        self.bullets_allowed = 8
+        self.ship_bullet_width = 3
+        self.ship_bullets_allowed = 8
+        self.alien_bullets_allowed = 3
         self.ship_speed_factor = 0.75
         self.bullet_speed_factor = 1.25
         self.alien_speed_factor = 0.5
@@ -57,7 +59,7 @@ class Settings():
 
     def increase_speed(self):
         '''提高速度设置和得分设置'''
-        self.ship_speed_factor *= self.speedup_scale
+        self.ship_speed_factor *= self.speedup_scale #todo设置飞船最大速度
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
         self.floating_drop_speed *= self.speedup_scale

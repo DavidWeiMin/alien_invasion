@@ -5,7 +5,6 @@
 保存最高分
 加入设置按钮
 设计自动射击，无限子弹模式
-加入外星人射击
 设计不同类型的外星人，不同的外星人得分不同
 设计飞船护甲
 双人模式
@@ -35,7 +34,7 @@ def run_game():
     # 创建一艘飞船
     ship = Ship(ai_settings,screen)
     # 创建一个用于储存子弹的编组
-    bullets = pygame.sprite.Group()
+    ship_bullets = pygame.sprite.Group()
     # 创建一个外星人编组
     aliens = pygame.sprite.Group()
     # 创建一组道具
@@ -54,15 +53,16 @@ def run_game():
     # 开始游戏主循环
     while True:
         # 监视键盘和鼠标事件
-        gf.check_events(ai_settings,screen,stats,play_button,ship,aliens,bullets,items)
+        gf.check_events(ai_settings,screen,stats,play_button,ship,aliens,ship_bullets,items)
         
         if stats.game_active:
             # 更新状态
             ship.update()
-            gf.update_bullets(ai_settings,screen,stats,sb,ship,aliens,bullets,items)
+            gf.update_ship_bullets(ai_settings,screen,stats,sb,ship,aliens,ship_bullets,items)
+            gf.update_alien_bullets(ai_settings,stats,ship,aliens)
             gf.update_items(ai_settings,screen,stats,ship,items)
-            gf.update_aliens(ai_settings,screen,stats,ship,aliens,bullets)
+            gf.update_aliens(ai_settings,screen,stats,ship,aliens,ship_bullets)
             
-        gf.update_screen(ai_settings,screen,stats,sb,ship,aliens,bullets,play_button,items) 
+        gf.update_screen(ai_settings,screen,stats,sb,ship,aliens,ship_bullets,play_button,items) 
 
 run_game()

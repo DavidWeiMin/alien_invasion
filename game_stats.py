@@ -37,7 +37,7 @@ class Game_stats():
         self.generate_bullet_number = 0
         self.bullet_killed_number = 0
         self.die_time = [time()]
-        self.player_name = 'wyt'
+        self.player_name = 'dwm'
         self.game_start_time = time()
         self.game_over_time = 0
         self.which = 1
