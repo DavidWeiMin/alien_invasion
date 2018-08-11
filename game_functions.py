@@ -281,4 +281,11 @@ def play_die():
     pygame.mixer.music.load('sounds/die music.mp3')
     pygame.mixer.music.play(loops=-1,start=90.6)
     sleep(3)
+
+if __name__=='__main__':
+    pygame.mixer.init()
+    play_die()
+    print(pygame.mixer.music.get_busy())
+    pygame.mixer.music.pause()
+    pygame.mixer.music.unpause()
     
