@@ -31,7 +31,7 @@ class Settings():
         self.filename = 'game_data.csv'
 
         # 背景音乐播放设置
-        self.play_list = range(1)
+        self.play_list = range(11)
 
         self.initialize_dynamic_settings()
 
