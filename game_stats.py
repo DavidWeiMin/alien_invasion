@@ -40,6 +40,13 @@ class Game_stats():
         self.player_name = 'wyt'
         self.game_start_time = time()
         self.game_over_time = 0
+        self.which = 1
+        self.key = 0
+        self.key_down = 0
+        self.key_up = 0
+        self.key_left = 0
+        self.key_right = 0
+        self.play_music = True
     
     def check_highest_score(self):
         '''检测是否诞生了新的最高得分'''
@@ -69,12 +76,13 @@ class Game_stats():
         self.stats_analysis()
         with open(self.ai_settings.filename,'a') as f:
             # f.write('玩家,开始时间,结束时间,持续时间,得分,等级,击杀数,击杀率,道具产生,道具获取,道具拾取率,道具1,道具2,道具3,道具4,道具5,道具6,发射子弹,子弹击中,击中率,')
-            for i in range(len(self.die_time)):
-                # f.write('第 ' + str(i + 1) + ' 次死亡')
-                if i + 1 < len(self.die_time):
-                    f.write(',')
-                else:
-                    f.write('\n')
+            # f.write('player,start,end,duration,score,level,kill,kill ratio,generate item,get item,get item ratio,item 1,item 2,item 3,item 4,item 5,item 6,fire,hit,hit ratio,key,up,down,left,right,die 1,die 2,die 3,die 4,die 5,die 6,die 7,die 8,die 9\n')
+            # for i in range(len(self.die_time)):
+            #     f.write('第 ' + str(i + 1) + ' 次死亡')
+            #     if i + 1 < len(self.die_time):
+            #         f.write(',')
+            #     else:
+            #         f.write('\n')
             f.write(str(self.player_name) + ',')
             f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_start_time)) + ',')
             f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_over_time)) + ',')
@@ -95,11 +103,15 @@ class Game_stats():
             f.write(str(self.generate_bullet_number) + ',')
             f.write(str(self.bullet_killed_number) + ',')
             f.write('%.2f%%' % (self.hit_ratio * 100) + ',')
+            f.write(str(self.key) + ',')
+            f.write(str(self.key_up) + ',')
+            f.write(str(self.key_down) + ',')
+            f.write(str(self.key_left) + ',')
+            f.write(str(self.key_right) + ',')
             for i in range(len(self.die_time)):
                 f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.die_time[i])))
                 if i + 1 < len(self.die_time):
                     f.write(',')
                 else:
                     f.write('\n')
-    # add 敲击键盘总次数，上下左右射击次数，
-        
+
