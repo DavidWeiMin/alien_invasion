@@ -47,8 +47,9 @@ def item_effect(event,ai_settings,screen,stats,aliens,ship_bullets,items):
             item.caculate_number()
             items.add(item)
         if stats.killed_number // ai_settings.level_base > stats.level:
-            ai_settings.increase_speed()
-            stats.level += 1
+            if stats.level < 20:
+                ai_settings.increase_speed()
+                stats.level += 1
     elif event.key == pygame.K_5 and stats.item_5 > 0:
         stats.item_5 -= 1
         ai_settings.effect_time *= 2
@@ -151,8 +152,9 @@ def check_bullet_alien_collisions(ai_settings,screen,stats,ship,aliens,ship_bull
                 item.caculate_number()
                 items.add(item)
             if stats.killed_number // ai_settings.level_base > stats.level:
-                ai_settings.increase_speed()
-                stats.level += 1
+                if stats.level < 20:
+                    ai_settings.increase_speed()
+                    stats.level += 1
 
 def update_ship_bullets(ai_settings,screen,stats,sb,ship,aliens,ship_bullets,items):
     # 更新子弹的位置
@@ -263,7 +265,7 @@ def update_aliens(ai_settings,screen,stats,ship,aliens,ship_bullets):
         if len(ai_settings.timekeep[6]) == 0 or (time() - ai_settings.timekeep[6][0] > ai_settings.effect_time):
             ship_hit(stats)
     
-    if time() - stats.create_alien_time > 1 / ai_settings.speedup_scale ** 2:
+    if time() - stats.create_alien_time > 0.75 / ai_settings.speedup_scale ** 3:
         stats.create_alien_time = time()
         create_fleet(ai_settings,screen,stats,aliens)
 

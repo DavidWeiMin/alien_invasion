@@ -25,7 +25,7 @@ class Settings():
         self.score_scale = 1.03
         # 每击杀外星人 10 个给予道具奖励
         self.award_base = 20
-        self.level_base = 10
+        self.level_base = 15
 
         # 无敌时间
         self.unstoppable_time = 3
@@ -71,4 +71,5 @@ class Settings():
         self.alien_speed_factor *= self.speedup_scale
         self.floating_drop_speed *= self.speedup_scale
         self.alien_points = self.score_scale * self.alien_points
+        self.fire_interval /= self.speedup_scale
 

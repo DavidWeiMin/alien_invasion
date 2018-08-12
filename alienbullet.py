@@ -12,7 +12,7 @@ class AlienBullet(pygame.sprite.Sprite):
         # 在 (0,0) 处创建一个表示子弹的矩形，再设置正确的位置
         self.rect = pygame.Rect(0,0,ai_settings.alien_bullet_width,ai_settings.bullet_height)
         self.rect.centerx = alien.rect.centerx
-        self.rect.top = alien.rect.top
+        self.rect.top = alien.rect.bottom
 
         # 存储用小数表示的子弹位置
         self.y = float(self.rect.y)
