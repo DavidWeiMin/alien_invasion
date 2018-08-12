@@ -38,7 +38,6 @@ def item_effect(event,ai_settings,screen,stats,aliens,ship_bullets,items):
     elif event.key == pygame.K_4 and stats.item_4 > 0:
         stats.killed_number += len(aliens.sprites())
         stats.score += len(aliens.sprites()) * ai_settings.alien_points
-        stats.check_highest_score()
         stats.item_4 -= 1
         aliens.empty()
         ship_bullets.empty() # 清除屏幕上所有外星人
@@ -69,8 +68,6 @@ def check_keydown_events(event,ai_settings,screen,stats,ship,aliens,ship_bullets
             reset_game(ai_settings,screen,stats,ship,aliens,ship_bullets,items)
             stats.which = random.choice(ai_settings.play_list)
             play_bgm(stats)
-            # stats.player_name = input('please enter your account:\n')
-            # sleep(3)
     elif event.key == pygame.K_p:
         if stats.game_active:
             pygame.mixer.music.pause()
@@ -147,8 +144,7 @@ def check_bullet_alien_collisions(ai_settings,screen,stats,ship,aliens,ship_bull
         for aliens_hit in collisions.values():
             stats.killed_number += len(aliens_hit)
             stats.bullet_killed_number += len(aliens_hit)
-            stats.score += ai_settings.alien_points * len(aliens_hit)#todo 分数受击杀率影响
-            stats.check_highest_score()
+            stats.score += ai_settings.alien_points * len(aliens_hit)
             #refactor  两个if单独定义函数
             if stats.killed_number // ai_settings.award_base > Item.count:
                 item = Item(ai_settings,screen)
@@ -257,7 +253,7 @@ def update_aliens(ai_settings,screen,stats,ship,aliens,ship_bullets):
     # 检查是否有外星人到达屏幕底端
     alien.check_floatings_bottom(aliens)
     for alien in aliens.sprites():
-        if time() - alien.fire_time > 10:
+        if time() - alien.fire_time > ai_settings.fire_interval:
             alien.alien_bullets.add(AlienBullet(ai_settings,screen,alien))
             alien.fire_time = time()
     aliens.update()
@@ -286,6 +282,8 @@ def update_screen(ai_settings,screen,stats,sb,ship,aliens,ship_bullets,play_butt
     items.draw(screen)
 
     # 显示统计数据
+    stats.stats_analysis()
+    stats.check_highest_score()
     sb.prep_all()
     sb.show()
 
@@ -299,7 +297,6 @@ def update_screen(ai_settings,screen,stats,sb,ship,aliens,ship_bullets,play_butt
 def create_fleet(ai_settings,screen,stats,aliens):
     '''创建外星人群'''
     alien = Alien(ai_settings,screen)
-    # alien.alien_bullets.add(AlienBullet(ai_settings,screen,alien))
     aliens.add(alien)
     stats.generate_alien_number += 1
 
@@ -321,7 +318,3 @@ def play_die():
     pygame.mixer.music.load('sounds/die music.mp3')
     pygame.mixer.music.play(loops=-1,start=90.6)
     sleep(6)
-
-if __name__=='__main__':
-    pass
-    

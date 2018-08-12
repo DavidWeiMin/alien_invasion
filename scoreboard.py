@@ -22,7 +22,8 @@ class Scoreboard():#todo加入道具效果倒计时
 
     def prep_score(self):
         '''将得分转换为一副渲染的图像'''
-        rounded_score = int(round(self.stats.score,-1))
+        self.stats.stats_analysis()
+        rounded_score = int(round(self.stats.adjust_score))
         rounded_score = '{:,}'.format(rounded_score)
         score_str = str('Score:%s' % rounded_score)
         self.score_image = self.font.render(score_str,True,self.text_color,self.ai_settings.bg_color)
@@ -34,7 +35,7 @@ class Scoreboard():#todo加入道具效果倒计时
 
     def prep_highest_score(self):
         '''将最高得分转换为渲染的图像'''
-        rounded_highest_score = int(round(self.stats.highest_score,-1))
+        rounded_highest_score = int(round(self.stats.adjust_highest_score))
         rounded_highest_score = '{:,}'.format(rounded_highest_score)
         highest_score_str = str('Highest Score:%s' % rounded_highest_score)
         self.highest_score_image = self.font.render(highest_score_str,True,self.text_color,self.ai_settings.bg_color)

@@ -22,9 +22,9 @@ class Settings():
         # 加快游戏节奏
         self.speedup_scale = 1.05
         # 击中外星人得分的提高速度
-        self.score_scale = 1.1
+        self.score_scale = 1.03
         # 每击杀外星人 10 个给予道具奖励
-        self.award_base = 3
+        self.award_base = 20
         self.level_base = 10
 
         # 无敌时间
@@ -35,6 +35,9 @@ class Settings():
 
         # 背景音乐播放设置
         self.play_list = range(11)
+
+        # 外星人射击时间间隔
+        self.fire_interval = 3
 
         self.initialize_dynamic_settings()
 
@@ -58,7 +61,7 @@ class Settings():
         self.item_direction = 1
 
         # 计分
-        self.alien_points = 10
+        self.alien_points = 1
 
     def increase_speed(self):
         '''提高速度设置和得分设置'''
