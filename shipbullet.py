@@ -17,7 +17,7 @@ class ShipBullet(pygame.sprite.Sprite):
         # 存储用小数表示的子弹位置
         self.y = float(self.rect.y)
 
-        self.color = ai_settings.bullet_color
+        self.color = ai_settings.ship_bullet_color
         self.speed_factor = ai_settings.bullet_speed_factor#todo 使飞船子弹与外星人子弹速度独立
 
     def update(self):

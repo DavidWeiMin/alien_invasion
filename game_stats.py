@@ -31,7 +31,7 @@ class Game_stats():
         self.item_4_cum = 0
         self.item_5 = 0
         self.item_5_cum = 0
-        self.item_6 = 0#todo 加无敌道具
+        self.item_6 = 0
         self.item_6_cum = 0
         self.item_7_cum = 0
         self.killed_number = 0

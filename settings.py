@@ -15,7 +15,8 @@ class Settings():
         # 子弹设置
         self.bullet_height = 15
         self.alien_bullet_width = 3
-        self.bullet_color = 60,60,60
+        self.ship_bullet_color = 255,127,0
+        self.alien_bullet_color = 60,60,60
 
         # 加快游戏节奏
         self.speedup_scale = 1.05

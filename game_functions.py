@@ -22,7 +22,7 @@ def ship_move(event,stats,ship,state):
         stats.key_down += 1
         ship.moving_down = state
 
-def item_effect(event,ai_settings,screen,stats,aliens,ship_bullets,items):#todo 加无敌道具
+def item_effect(event,ai_settings,screen,stats,aliens,ship_bullets,items):
     if event.key == pygame.K_1 and stats.item_1 > 0:
         stats.item_1 -= 1
         ai_settings.ship_bullet_width *= 8 # 飞船子弹宽度乘以 8
@@ -203,7 +203,6 @@ def ship_hit(stats):
         stats.game_active = False
         pygame.mouse.set_visible(True)
         play_die()
-        # sleep(3)
 
 def update_items(ai_settings,screen,stats,ship,items):
     '''更新道具'''
