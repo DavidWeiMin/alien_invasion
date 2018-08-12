@@ -85,9 +85,9 @@ def check_keydown_events(event,ai_settings,screen,stats,ship,aliens,ship_bullets
         else:
             pygame.mixer.music.unpause()
         stats.play_music = not stats.play_music
-    elif event.key == pygame.K_PAGEUP:# todo 游戏未开始时不能窃歌
+    elif event.key == pygame.K_PAGEUP:
         play_last(stats)
-    elif event.key == pygame.K_PAGEDOWN:# todo 游戏未开始时不能窃歌
+    elif event.key == pygame.K_PAGEDOWN:
         play_next(stats)
     item_effect(event,ai_settings,screen,stats,aliens,ship_bullets,items)
 

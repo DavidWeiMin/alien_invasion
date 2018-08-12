@@ -1,4 +1,5 @@
 import time
+import math
 class Settings():
     '''存储《外星人入侵》的所有设置的类'''
 
@@ -44,7 +45,8 @@ class Settings():
         self.ship_bullets_allowed = 10
         self.alien_bullets_allowed = 3
         self.ship_speed_factor = 0.75
-        self.bullet_speed_factor = 1.25#todo 使飞船子弹与外星人子弹速度独立
+        self.ship_bullet_speed_factor = 1.25
+        self.alien_bullet_speed_factor = 1.2
         self.alien_speed_factor = 0.5
         self.floating_drop_speed = 0.4
         self.energy_bullet = True
@@ -60,8 +62,9 @@ class Settings():
 
     def increase_speed(self):
         '''提高速度设置和得分设置'''
-        self.ship_speed_factor *= self.speedup_scale #todo设置飞船最大速度
-        self.bullet_speed_factor *= self.speedup_scale
+        self.ship_speed_factor *= self.speedup_scale 
+        self.ship_bullet_speed_factor *= self.speedup_scale
+        self.alien_bullet_speed_factor *= math.sqrt(self.speedup_scale)
         self.alien_speed_factor *= self.speedup_scale
         self.floating_drop_speed *= self.speedup_scale
         self.alien_points = self.score_scale * self.alien_points
