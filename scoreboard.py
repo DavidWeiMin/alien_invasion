@@ -3,7 +3,7 @@ import pygame.sprite
 from ship import Ship
 from item import Item
 
-class Scoreboard():
+class Scoreboard():#todo加入道具效果倒计时
     '''显示得分信息的类'''
 
     def __init__(self,ai_settings,screen,stats):
@@ -67,7 +67,7 @@ class Scoreboard():
         self.ships = pygame.sprite.Group()
         for ship_number in range(self.stats.ships_left):
             self.ship = Ship(self.ai_settings,self.screen)#key 当飞船剩余0时，需要使用飞船的宽度，同时还可以将非循环代码移出循环
-            self.ship.image = pygame.image.load('images/item6.png')
+            self.ship.image = pygame.image.load('images/item7.png')
             self.ship.rect = self.ship.image.get_rect()
             self.ship.rect.x = 10 + ship_number * self.ship.rect.width
             self.ship.rect.y = 10
@@ -76,7 +76,7 @@ class Scoreboard():
     def prep_item(self):
         '''准备道具图像'''
         self.items = pygame.sprite.Group()
-        item_collection = [self.stats.item_1,self.stats.item_2,self.stats.item_3,self.stats.item_4,self.stats.item_5]
+        item_collection = [self.stats.item_1,self.stats.item_2,self.stats.item_3,self.stats.item_4,self.stats.item_5,self.stats.item_6]
         for kind,number in enumerate(item_collection):
             if len(self.items.sprites()) == 0:
                 if self.stats.ships_left > 0:#alert 如果没有命了就会导致ship对象不存在

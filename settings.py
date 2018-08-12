@@ -22,7 +22,7 @@ class Settings():
         # 击中外星人得分的提高速度
         self.score_scale = 1.1
         # 每击杀外星人 10 个给予道具奖励
-        self.award_base = 25
+        self.award_base = 3
         self.level_base = 10
 
         # 无敌时间
@@ -40,15 +40,15 @@ class Settings():
     def initialize_dynamic_settings(self):
         '''初始化随游戏进行而变化的动态设置'''
         self.ship_bullet_width = 3
-        self.ship_bullets_allowed = 8
+        self.ship_bullets_allowed = 10
         self.alien_bullets_allowed = 3
         self.ship_speed_factor = 0.75
-        self.bullet_speed_factor = 1.25
+        self.bullet_speed_factor = 1.25#todo 使飞船子弹与外星人子弹速度独立
         self.alien_speed_factor = 0.5
         self.floating_drop_speed = 0.4
         self.energy_bullet = True
-        self.timekeep = {i:[] for i in range(1,7)}
-        self.effect_time = 10 # todo加入道具可以使其他道具的效果时间延长
+        self.timekeep = {i:[] for i in range(1,8)}
+        self.effect_time = 10
 
         # 1 表示向右移，为 -1 表示向左移
         self.alien_direction = 1

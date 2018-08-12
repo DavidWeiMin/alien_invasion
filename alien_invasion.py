@@ -1,4 +1,4 @@
-''' 本书配套资源网站：https/www.ituring.cn/book/1861'''
+ ''' 本书配套资源网站：https/www.ituring.cn/book/1861'''
 
 '''改进余地
 加入向上飞行效果
@@ -8,8 +8,10 @@
 设计不同类型的外星人，不同的外星人得分不同
 设计飞船护甲
 双人模式
-根据代码规范完善代码格式
 '''
+#refactor根据代码规范完善代码格式
+#refactor根据实际所属关系重构类，alien)bullet应该是alien的属性
+#refactor简化函数参数调用，因为许多实例都含有其他实例
 
 import pygame
 from settings import Settings

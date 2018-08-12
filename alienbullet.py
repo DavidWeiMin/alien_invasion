@@ -4,7 +4,7 @@ import pygame
 class AlienBullet(pygame.sprite.Sprite):
     '''一个对飞船发射的子弹进行管理的类'''
 
-    def __init__(self,ai_settings,screen,alien):
+    def __init__(self,ai_settings,screen,alien):#todo区分飞船与外星人子弹颜色
         '''在飞船所属的位置创建一个子弹对象'''
         super(AlienBullet,self).__init__()
         self.screen = screen
@@ -18,7 +18,7 @@ class AlienBullet(pygame.sprite.Sprite):
         self.y = float(self.rect.y)
 
         self.color = ai_settings.bullet_color
-        self.speed_factor = ai_settings.bullet_speed_factor
+        self.speed_factor = ai_settings.bullet_speed_factor#todo 使飞船子弹与外星人子弹速度独立
 
     def update(self):
         '''向上移动子弹'''

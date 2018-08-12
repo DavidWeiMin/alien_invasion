@@ -1,7 +1,7 @@
 from floating import Floating
 import pygame
 
-class Alien(Floating):
+class Alien(Floating):#加入不同类型的外星人（大小等）
     '''表示单个外星人的类'''
 
     def __init__(self,ai_settings,screen):

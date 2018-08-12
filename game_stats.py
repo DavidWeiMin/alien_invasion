@@ -31,13 +31,15 @@ class Game_stats():
         self.item_4_cum = 0
         self.item_5 = 0
         self.item_5_cum = 0
-        self.item_6 = 0
+        self.item_6 = 0#todo 加无敌道具
+        self.item_6_cum = 0
+        self.item_7_cum = 0
         self.killed_number = 0
         self.generate_alien_number = 0
         self.generate_bullet_number = 0
         self.bullet_killed_number = 0
         self.die_time = [time()]
-        self.player_name = 'dwm'
+        self.player_name = 'wyt'
         self.game_start_time = time()
         self.game_over_time = 0
         self.which = 1
@@ -99,7 +101,7 @@ class Game_stats():
             f.write(str(self.item_3_cum) + ',')
             f.write(str(self.item_4_cum) + ',')
             f.write(str(self.item_5_cum) + ',')
-            f.write(str(self.item_6) + ',')
+            f.write(str(self.item_6_cum) + ',')
             f.write(str(self.generate_bullet_number) + ',')
             f.write(str(self.bullet_killed_number) + ',')
             f.write('%.2f%%' % (self.hit_ratio * 100) + ',')
