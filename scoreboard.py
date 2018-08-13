@@ -20,9 +20,9 @@ class Scoreboard():#todo加入道具效果倒计时
         self.font2 = pygame.font.SysFont(None,16)
 
         # 初始化道具效果倒数计时
-        self.count_down = {i:[] for i in range(1,8)}
-        self.count_image = {i:[] for i in range(1,8)}
-        self.count_rect = {i:[] for i in range(1,8)}
+        self.count_down = {i:[] for i in self.ai_settings.item_list}
+        self.count_image = {i:[] for i in self.ai_settings.item_list}
+        self.count_rect = {i:[] for i in self.ai_settings.item_list}
 
         # 准备所有图像
         self.prep_all()
@@ -70,17 +70,6 @@ class Scoreboard():#todo加入道具效果倒计时
         self.hits_rect.right = self.level_rect.left - 10
         self.hits_rect.top = self.level_rect.top
 
-    def prep_ships(self):
-        '''显示还余下多少飞船'''
-        self.ships = pygame.sprite.Group()
-        for ship_number in range(self.stats.ships_left):
-            self.ship = Ship(self.ai_settings,self.screen)
-            self.ship.image = pygame.image.load('images/item7.png')
-            self.ship.rect = self.ship.image.get_rect()
-            self.ship.rect.x = 10 + ship_number * self.ship.rect.width
-            self.ship.rect.y = self.score_rect.top
-            self.ships.add(self.ship)
-
     def prep_item(self):
         '''准备道具图像'''
         for key,value in self.ai_settings.timekeep.items():
@@ -90,31 +79,26 @@ class Scoreboard():#todo加入道具效果倒计时
                 self.count_rect[key].append(self.count_image[key][-1].get_rect())
 
         self.items = pygame.sprite.Group()
-        item_collection = [self.stats.item_1,self.stats.item_2,self.stats.item_3,self.stats.item_4,self.stats.item_5,self.stats.item_6]
-        for kind,number in enumerate(item_collection):
+        for kind,number in self.stats.item_.items():
             if len(self.items.sprites()) == 0:
-                if self.stats.ships_left > 0:#alert 如果没有命了就会导致ship对象不存在
-                    seperation = self.stats.ships_left * self.ship.rect.width + 20
-                else:
-                    seperation = 10
+                position = 10
             else:
-                seperation = self.items.sprites()[-1].rect.right + 10
+                position = self.items.sprites()[-1].rect.right + 10
             for item_number in range(number):
                 self.item = Item(self.ai_settings,self.screen)
-                self.item.set_kind(kind + 1)
+                self.item.set_kind(kind)
                 self.item.load_image()
-                self.item.rect.x = seperation + item_number * self.item.rect.width
-                self.item.rect.y = self.score_rect.top
-                if item_number < len(self.ai_settings.timekeep[kind + 1]):
-                    self.count_rect[kind + 1][item_number].centerx = self.item.rect.centerx
-                    self.count_rect[kind + 1][item_number].bottom = self.item.rect.top
+                self.item.rect.left = position
+                position = self.item.rect.right
+                self.item.rect.top = self.score_rect.top
+                if item_number < len(self.ai_settings.timekeep[kind]):
+                    self.count_rect[kind][item_number].centerx = self.item.rect.centerx
+                    self.count_rect[kind][item_number].bottom = self.item.rect.top
                 self.items.add(self.item)
-    # todo 在屏幕上显示当前玩家与游戏持续时间，显示当前已经产生外星人数量与击杀率
     
     def prep_all(self):
         '''准备所有图像'''
         self.prep_score()
-        self.prep_ships()
         self.prep_level()
         self.prep_highest_score()
         self.prep_hits()
@@ -126,13 +110,11 @@ class Scoreboard():#todo加入道具效果倒计时
         self.screen.blit(self.highest_score_image,self.highest_score_rect)
         self.screen.blit(self.level_image,self.level_rect)
         self.screen.blit(self.hits_image,self.hits_rect)
-        # 绘制飞船
-        self.ships.draw(self.screen)
         # 绘制道具
         self.items.draw(self.screen)
         for i in self.ai_settings.timekeep:
             for j in range(len(self.ai_settings.timekeep[i])):
                 self.screen.blit(self.count_image[i][j],self.count_rect[i][j])
-        self.count_down = {i:[] for i in range(1,8)}
-        self.count_image = {i:[] for i in range(1,8)}
-        self.count_rect = {i:[] for i in range(1,8)}
+        self.count_down = {i:[] for i in self.ai_settings.item_list}
+        self.count_image = {i:[] for i in self.ai_settings.item_list}
+        self.count_rect = {i:[] for i in self.ai_settings.item_list}

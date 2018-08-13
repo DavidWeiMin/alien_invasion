@@ -18,7 +18,7 @@ class Alien(Floating):#todo加入不同类型的外星人（大小等）
     def check_floatings_bottom(self,floatings):
         '''检查是否有物体到达了屏幕底端'''
         for floating in floatings.sprites():
-            if floating.rect.bottom >= self.screen_rect.bottom:
+            if floating.rect.top >= self.screen_rect.bottom:
                 floatings.remove(floating)
 
     def change_floating_direction(self,floatings):

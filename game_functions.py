@@ -23,35 +23,45 @@ def ship_move(event,stats,ship,state):
         ship.moving_down = state
 
 def item_effect(event,ai_settings,screen,stats,aliens,ship_bullets,items):
-    if event.key == pygame.K_1 and stats.item_1 - len(ai_settings.timekeep[1]) > 0:
-        ai_settings.ship_bullet_width *= 8 # 飞船子弹宽度乘以 8
-        ai_settings.timekeep[1].append((time()))
-    elif event.key == pygame.K_2 and stats.item_2 - len(ai_settings.timekeep[2]) > 0:
-        ai_settings.floating_drop_speed /= 2 # 外星人下降速度除以 2
-        ai_settings.timekeep[2].append((time()))
-    elif event.key == pygame.K_3 and stats.item_3 - len(ai_settings.timekeep[3]) > 0:
-        ai_settings.energy_bullet = False # 普通子弹升级为高能子弹
-        ai_settings.timekeep[3].append((time()))
-    elif event.key == pygame.K_4 and stats.item_4 - len(ai_settings.timekeep[4]) > 0:
+    if event.key == pygame.K_1 and stats.item_[1] - len(ai_settings.timekeep[1]) > 0:
+        stats.item_[1] -= 1
         stats.killed_number += len(aliens.sprites())
         stats.score += len(aliens.sprites()) * ai_settings.alien_points
-        stats.item_4 -= 1
-        aliens.empty()
-        ship_bullets.empty() # 清除屏幕上所有外星人
-        #refactor  两个if单独定义函数
-        if stats.killed_number // ai_settings.award_base > Item.count:
-            item = Item(ai_settings,screen)
-            item.caculate_number()
-            items.add(item)
-        if stats.killed_number // ai_settings.level_base > stats.level:
-            if stats.level < 20:
-                ai_settings.increase_speed()
-                stats.level += 1
-    elif event.key == pygame.K_5 and stats.item_5 - len(ai_settings.timekeep[5]) > 0:
+        empty(aliens,ship_bullets)
+        ask_item(ai_settings,screen,stats,items)
+        ask_increase_level(ai_settings,stats)
+    elif event.key == pygame.K_2 and stats.item_[2] - len(ai_settings.timekeep[2]) > 0:
         ai_settings.effect_time *= 2
-        ai_settings.timekeep[5].append((time()))
-    elif event.key == pygame.K_6 and stats.item_6 - len(ai_settings.timekeep[6]) > 0:
-        ai_settings.timekeep[6].append(time())
+        ai_settings.timekeep[2].append((time()))
+    elif event.key == pygame.K_3 and stats.item_[3] - len(ai_settings.timekeep[3]) > 0:
+        ai_settings.energy_bullet = False # 普通子弹升级为高能子弹
+        ai_settings.timekeep[3].append((time()))
+    elif event.key == pygame.K_4 and stats.item_[4] - len(ai_settings.timekeep[4]) > 0:
+        ai_settings.ship_bullet_width *= 8 # 飞船子弹宽度乘以 8
+        ai_settings.timekeep[4].append((time()))
+    elif event.key == pygame.K_5 and stats.item_[5] - len(ai_settings.timekeep[5]) > 0:
+        ai_settings.timekeep[5].append(time())
+    elif event.key == pygame.K_6 and stats.item_[6] - len(ai_settings.timekeep[6]) > 0:
+        ai_settings.floating_drop_speed /= 2 # 外星人下降速度除以 2
+        ai_settings.timekeep[6].append((time()))
+
+def ask_item(ai_settings,screen,stats,items):
+    '''判断是否奖励道具'''
+    if stats.killed_number // ai_settings.award_base > Item.count:
+        item = Item(ai_settings,screen)
+        item.caculate_number()
+        items.add(item)
+
+def ask_increase_level(ai_settings,stats):
+    '''判断是否提升游戏等级'''
+    if stats.killed_number // ai_settings.level_base > stats.level:
+        if stats.level < 20:
+            ai_settings.increase_speed()
+            stats.level += 1
+
+def empty(*args):
+    '''清空传入的编组'''
+    [i.empty() for i in args]
 
 def check_keydown_events(event,ai_settings,screen,stats,ship,aliens,ship_bullets,state,items):
     '''响应按键'''
@@ -119,12 +129,8 @@ def reset_game(ai_settings,screen,stats,ship,aliens,ship_bullets,items):
     Item.count = 0
     ai_settings.initialize_dynamic_settings()
 
-    # 清空外星人列表、子弹列表和道具列表
-    aliens.empty()
-    ship_bullets.empty()
-    for alien in aliens.sprites():
-        alien.alien_bullets.empty()
-    items.empty()
+    # 清空外星人列表、飞船子弹列表和道具列表
+    empty(aliens,ship_bullets,items)
     
 
     # 创建一群新的外星人，并将飞船放到屏幕底端中央
@@ -143,17 +149,11 @@ def check_bullet_alien_collisions(ai_settings,screen,stats,ship,aliens,ship_bull
             stats.killed_number += len(aliens_hit)
             stats.bullet_killed_number += len(aliens_hit)
             stats.score += ai_settings.alien_points * len(aliens_hit)
-            #refactor  两个if单独定义函数
-            if stats.killed_number // ai_settings.award_base > Item.count:
-                item = Item(ai_settings,screen)
-                item.caculate_number()
-                items.add(item)
-            if stats.killed_number // ai_settings.level_base > stats.level:
-                if stats.level < 20:
-                    ai_settings.increase_speed()
-                    stats.level += 1
+            ask_item(ai_settings,screen,stats,items)
+            ask_increase_level(ai_settings,stats)
 
 def update_ship_bullets(ai_settings,screen,stats,sb,ship,aliens,ship_bullets,items):
+    '''更新飞船子弹的位置以及删除屏幕外的子弹'''
     # 更新子弹的位置
     ship_bullets.update()
 
@@ -165,6 +165,7 @@ def update_ship_bullets(ai_settings,screen,stats,sb,ship,aliens,ship_bullets,ite
     check_bullet_bullet_collisions(ai_settings,ship_bullets,aliens)
 
 def update_alien_bullets(ai_settings,stats,ship,aliens):
+    '''更新外星人子弹的位置以及删除屏幕外的子弹'''
     for alien in aliens.sprites():
         alien.alien_bullets.update()
         for alien_bullet in alien.alien_bullets.copy():
@@ -176,7 +177,7 @@ def check_bullet_ship_collisions(ai_settings,stats,ship,aliens):
     for alien in aliens.sprites():
         collisions = pygame.sprite.spritecollideany(ship,alien.alien_bullets)
         if collisions and (time() - stats.die_time[-1] > ai_settings.unstoppable_time):
-            if len(ai_settings.timekeep[6]) == 0 or (time() - ai_settings.timekeep[6][0] > ai_settings.effect_time):
+            if len(ai_settings.timekeep[5]) == 0 or (time() - ai_settings.timekeep[5][0] > ai_settings.effect_time):
                 ship_hit(stats)
             break
 
@@ -187,9 +188,9 @@ def check_bullet_bullet_collisions(ai_settings,ship_bullets,aliens):
 def ship_hit(stats):
     '''响应被外星人撞到的飞船'''
     stats.die_time.append((time()))
-    if stats.ships_left > 1:
+    if stats.item_[0] > 1:
         # 将 ships_left 减 1
-        stats.ships_left -= 1
+        stats.item_[0] -= 1
         sleep(0.5)
     else:
         pygame.mixer.music.stop()
@@ -200,55 +201,34 @@ def ship_hit(stats):
         play_die()
 
 def update_items(ai_settings,screen,stats,ship,items):
-    '''更新道具'''
+    '''更新道具,拾取道具与道具失效'''
     if len(items.sprites()) > 0:
         items.sprites()[0].check_floating_edges(items)
         items.sprites()[0].check_floatings_bottom(items)
     items.update()
-
-    if pygame.sprite.spritecollideany(ship,items):#refactor 简化代码清晰结构
+    if pygame.sprite.spritecollideany(ship,items):
         item = items.sprites()[0]
-        if item.kind == 1:
-            stats.item_1 += 1
-            stats.item_1_cum += 1
-        elif item.kind == 2:
-            stats.item_2 += 1
-            stats.item_2_cum += 1
-        elif item.kind == 3:
-            stats.item_3 += 1
-            stats.item_3_cum += 1
-        elif item.kind == 4:
-            stats.item_4 += 1
-            stats.item_4_cum += 1
-        elif item.kind == 5:
-            stats.item_5 += 1
-            stats.item_5_cum += 1           
-        elif item.kind == 6:
-            stats.item_6 += 1
-            stats.item_6_cum += 1
-        elif item.kind == 7:
-            stats.ships_left += 1
-            stats.item_7_cum += 1
+        for i in ai_settings.item_list:
+            if item.kind == i:
+                stats.item_cum[i] += 1
+                stats.item_[i] += 1
+                break
         items.remove(item)
-    if ai_settings.timekeep[5] and (time() - ai_settings.timekeep[5][0] >= ai_settings.effect_time):
-        stats.item_5 -= 1
-        ai_settings.effect_time /= 2
-        ai_settings.timekeep[5].pop(0)
-    if ai_settings.timekeep[1] and (time() - ai_settings.timekeep[1][0] >= ai_settings.effect_time):
-        stats.item_1 -= 1
-        ai_settings.ship_bullet_width /= 8
-        ai_settings.timekeep[1].pop(0)
-    if ai_settings.timekeep[2] and (time() - ai_settings.timekeep[2][0] >= ai_settings.effect_time):
-        stats.item_2 -= 1
-        ai_settings.floating_drop_speed *= 2
-        ai_settings.timekeep[2].pop(0)
-    if ai_settings.timekeep[3] and (time() - ai_settings.timekeep[3][0] >= ai_settings.effect_time):
-        stats.item_3 -= 1
-        ai_settings.energy_bullet = True
-        ai_settings.timekeep[3].pop(0)
-    if ai_settings.timekeep[6] and (time() - ai_settings.timekeep[6][0] >= ai_settings.effect_time):
-        stats.item_6 -= 1
-        ai_settings.timekeep[6].pop(0)
+
+    for i in ai_settings.item_list[2:]:
+       if ai_settings.timekeep[i] and (time() - ai_settings.timekeep[i][0] >= ai_settings.effect_time):
+            stats.item_[i] -= 1
+            ai_settings.timekeep[i].pop(0)
+            if i == 2:
+                ai_settings.effect_time /= 2
+            elif i == 3:
+                ai_settings.energy_bullet = True
+            elif i == 4:
+                ai_settings.ship_bullet_width /= 8
+            elif i == 5:
+                pass
+            elif i == 6:
+                ai_settings.floating_drop_speed *= 2
 
 def update_aliens(ai_settings,screen,stats,ship,aliens,ship_bullets):
     '''检查是否有外星人位于屏幕边缘，并更新外星人群中所有外星人的位置'''
@@ -264,7 +244,7 @@ def update_aliens(ai_settings,screen,stats,ship,aliens,ship_bullets):
 
     # 检测外星人与飞船之间的碰撞
     if pygame.sprite.spritecollideany(ship,aliens) and (time() - stats.die_time[-1] > ai_settings.unstoppable_time):
-        if len(ai_settings.timekeep[6]) == 0 or (time() - ai_settings.timekeep[6][0] > ai_settings.effect_time):
+        if len(ai_settings.timekeep[5]) == 0 or (time() - ai_settings.timekeep[5][0] > ai_settings.effect_time):
             ship_hit(stats)
     
     if time() - stats.create_alien_time > ai_settings.generate_interval / ai_settings.speedup_scale ** 3.5:
@@ -276,11 +256,10 @@ def update_screen(ai_settings,screen,stats,sb,ship,aliens,ship_bullets,play_butt
     screen.fill(ai_settings.bg_color)
 
     # # 在飞船和外星人后面重绘所有子弹
-    for ship_bullet in ship_bullets.sprites():
-        ship_bullet.draw_bullet()
+    [ship_bullet.draw_bullet() for ship_bullet in ship_bullets.sprites()]
     for alien in aliens.sprites():
-        for alien_bullet in alien.alien_bullets:
-            alien_bullet.draw_bullet()
+        [alien_bullet.draw_bullet() for alien_bullet in alien.alien_bullets]
+            
     ship.blitme()
     aliens.draw(screen)
     items.draw(screen)
@@ -322,3 +301,12 @@ def play_die():
     pygame.mixer.music.load('sounds/die music.mp3')
     pygame.mixer.music.play(loops=-1,start=90.6)
     sleep(6)
+
+if __name__=='__main__':
+    a = {i:[] for i in range(4)}
+    # print([del a[7]])
+    # del b[7]
+    # print(b)
+    print(a[0])
+    
+    

@@ -24,8 +24,8 @@ class Settings():
         # 击中外星人得分的提高速度
         self.score_scale = 1.03
         # 每击杀外星人 10 个给予道具奖励
-        self.award_base = 20
-        self.level_base = 15
+        self.award_base = 1
+        self.level_base = 1
 
         # 无敌时间
         self.unstoppable_time = 3
@@ -55,7 +55,8 @@ class Settings():
         self.alien_speed_factor = 0.5
         self.floating_drop_speed = 0.4
         self.energy_bullet = True
-        self.timekeep = {i:[] for i in range(1,8)}
+        self.item_list = range(7)
+        self.timekeep = {i:[] for i in self.item_list}
         self.effect_time = 10
 
         # 1 表示向右移，为 -1 表示向左移

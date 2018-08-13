@@ -24,19 +24,9 @@ class Game_stats():
         self.score = 0
         self.adjust_score = 0
         self.level = 0
-        self.item_1 = 0
-        self.item_1_cum = 0
-        self.item_2 = 0
-        self.item_2_cum = 0
-        self.item_3 = 0
-        self.item_3_cum = 0
-        self.item_4 = 0
-        self.item_4_cum = 0
-        self.item_5 = 0
-        self.item_5_cum = 0
-        self.item_6 = 0
-        self.item_6_cum = 0
-        self.item_7_cum = 0
+        self.item_ = {i:0 for i in self.ai_settings.item_list}
+        self.item_[0] = self.ai_settings.ship_limit
+        self.item_cum = {i:0 for i in self.ai_settings.item_list}
         self.killed_number = 0
         self.generate_alien_number = 0
         self.generate_bullet_number = 0
@@ -71,7 +61,7 @@ class Game_stats():
         else:
             self.killed_ratio = 0
 
-        self.get_item_number = self.item_1_cum + self.item_2_cum + self.item_3_cum + self.item_4_cum + self.item_5_cum + self.item_6
+        self.get_item_number = sum(self.item_cum.values())
         self.generate_item_number = self.killed_number // self.ai_settings.award_base
 
         if self.generate_item_number:
@@ -90,7 +80,7 @@ class Game_stats():
         '''保存用户的游戏数据'''
         self.stats_analysis()
         self.die_time.pop(0)
-        if self.game_time >= 60:
+        if self.game_time >= 6:
             with open(self.ai_settings.filename,'a') as f:
                 # f.write('玩家,开始时间,结束时间,持续时间,得分,等级,击杀数,击杀率,道具产生,道具获取,道具拾取率,道具1,道具2,道具3,道具4,道具5,道具6,道具7,发射子弹,子弹击中,击中率,')
                 # f.write('player,start,end,duration,score,level,kill,kill ratio,generate item,get item,get item ratio,item 1,item 2,item 3,item 4,item 5,item 6,fire,hit,hit ratio,key,up,down,left,right,die 1,die 2,die 3,die 4,die 5,die 6,die 7,die 8,die 9\n')
@@ -111,13 +101,7 @@ class Game_stats():
                 f.write(str(self.generate_item_number) + ',')
                 f.write(str(self.get_item_number) + ',')
                 f.write('%.2f%%' % (self.get_item_ratio * 100) + ',')
-                f.write(str(self.item_1_cum) + ',')
-                f.write(str(self.item_2_cum) + ',')
-                f.write(str(self.item_3_cum) + ',')
-                f.write(str(self.item_4_cum) + ',')
-                f.write(str(self.item_5_cum) + ',')
-                f.write(str(self.item_6_cum) + ',')
-                f.write(str(self.item_7_cum) + ',')
+                [f.write(str(self.item_cum[i]) + ',') for i in self.ai_settings.item_list]
                 f.write(str(self.generate_bullet_number) + ',')
                 f.write(str(self.bullet_killed_number) + ',')
                 f.write('%.2f%%' % (self.hit_ratio * 100) + ',')

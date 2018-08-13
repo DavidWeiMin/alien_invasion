@@ -28,7 +28,7 @@ def run_game():
     pygame.display.set_caption = ('Alien Invasion')
 
     # 创建 Play 按钮
-    play_button = Button(ai_settings,screen,'Play')
+    play_button = Button(ai_settings,screen,'Play')                     
 
     # 创建一艘飞船
     ship = Ship(ai_settings,screen)
