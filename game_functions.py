@@ -23,19 +23,16 @@ def ship_move(event,stats,ship,state):
         ship.moving_down = state
 
 def item_effect(event,ai_settings,screen,stats,aliens,ship_bullets,items):
-    if event.key == pygame.K_1 and stats.item_1 > 0:
-        stats.item_1 -= 1
+    if event.key == pygame.K_1 and stats.item_1 - len(ai_settings.timekeep[1]) > 0:
         ai_settings.ship_bullet_width *= 8 # 飞船子弹宽度乘以 8
         ai_settings.timekeep[1].append((time()))
-    elif event.key == pygame.K_2 and stats.item_2 > 0:
-        stats.item_2 -= 1
+    elif event.key == pygame.K_2 and stats.item_2 - len(ai_settings.timekeep[2]) > 0:
         ai_settings.floating_drop_speed /= 2 # 外星人下降速度除以 2
         ai_settings.timekeep[2].append((time()))
-    elif event.key == pygame.K_3 and stats.item_3 > 0:
-        stats.item_3 -= 1
+    elif event.key == pygame.K_3 and stats.item_3 - len(ai_settings.timekeep[3]) > 0:
         ai_settings.energy_bullet = False # 普通子弹升级为高能子弹
         ai_settings.timekeep[3].append((time()))
-    elif event.key == pygame.K_4 and stats.item_4 > 0:
+    elif event.key == pygame.K_4 and stats.item_4 - len(ai_settings.timekeep[4]) > 0:
         stats.killed_number += len(aliens.sprites())
         stats.score += len(aliens.sprites()) * ai_settings.alien_points
         stats.item_4 -= 1
@@ -50,12 +47,10 @@ def item_effect(event,ai_settings,screen,stats,aliens,ship_bullets,items):
             if stats.level < 20:
                 ai_settings.increase_speed()
                 stats.level += 1
-    elif event.key == pygame.K_5 and stats.item_5 > 0:
-        stats.item_5 -= 1
+    elif event.key == pygame.K_5 and stats.item_5 - len(ai_settings.timekeep[5]) > 0:
         ai_settings.effect_time *= 2
         ai_settings.timekeep[5].append((time()))
-    elif event.key == pygame.K_6 and stats.item_6 > 0:
-        stats.item_6 -= 1
+    elif event.key == pygame.K_6 and stats.item_6 - len(ai_settings.timekeep[6]) > 0:
         ai_settings.timekeep[6].append(time())
 
 def check_keydown_events(event,ai_settings,screen,stats,ship,aliens,ship_bullets,state,items):
@@ -67,6 +62,8 @@ def check_keydown_events(event,ai_settings,screen,stats,ship,aliens,ship_bullets
             fire_bullet(ai_settings,screen,stats,ship,ship_bullets)
         else:
             reset_game(ai_settings,screen,stats,ship,aliens,ship_bullets,items)
+            # stats.player_name = input('please enter your name:\n')#remove vsc运行请删除此行
+            # sleep(3)#remove vsc运行请删除此行
             stats.which = random.choice(ai_settings.play_list)
             play_bgm(stats)
     elif event.key == pygame.K_p:
@@ -234,18 +231,23 @@ def update_items(ai_settings,screen,stats,ship,items):
             stats.item_7_cum += 1
         items.remove(item)
     if ai_settings.timekeep[5] and (time() - ai_settings.timekeep[5][0] >= ai_settings.effect_time):
+        stats.item_5 -= 1
         ai_settings.effect_time /= 2
         ai_settings.timekeep[5].pop(0)
     if ai_settings.timekeep[1] and (time() - ai_settings.timekeep[1][0] >= ai_settings.effect_time):
+        stats.item_1 -= 1
         ai_settings.ship_bullet_width /= 8
         ai_settings.timekeep[1].pop(0)
     if ai_settings.timekeep[2] and (time() - ai_settings.timekeep[2][0] >= ai_settings.effect_time):
+        stats.item_2 -= 1
         ai_settings.floating_drop_speed *= 2
         ai_settings.timekeep[2].pop(0)
     if ai_settings.timekeep[3] and (time() - ai_settings.timekeep[3][0] >= ai_settings.effect_time):
+        stats.item_3 -= 1
         ai_settings.energy_bullet = True
         ai_settings.timekeep[3].pop(0)
     if ai_settings.timekeep[6] and (time() - ai_settings.timekeep[6][0] >= ai_settings.effect_time):
+        stats.item_6 -= 1
         ai_settings.timekeep[6].pop(0)
 
 def update_aliens(ai_settings,screen,stats,ship,aliens,ship_bullets):
@@ -265,7 +267,7 @@ def update_aliens(ai_settings,screen,stats,ship,aliens,ship_bullets):
         if len(ai_settings.timekeep[6]) == 0 or (time() - ai_settings.timekeep[6][0] > ai_settings.effect_time):
             ship_hit(stats)
     
-    if time() - stats.create_alien_time > 0.75 / ai_settings.speedup_scale ** 3:
+    if time() - stats.create_alien_time > ai_settings.generate_interval / ai_settings.speedup_scale ** 3.5:
         stats.create_alien_time = time()
         create_fleet(ai_settings,screen,stats,aliens)
 

@@ -8,7 +8,7 @@ class Item(Alien):
 
     def __init__(self,ai_settings,screen):
         '''初始化道具并设置其起始位置'''
-        self.kind = random.choice(range(1,7))
+        self.kind = random.choice(range(1,8))
         super(Item,self).__init__(ai_settings,screen)
 
     def load_image(self):
@@ -31,5 +31,3 @@ class Item(Alien):
     
     def update_direction(self):
         self.x += self.ai_settings.alien_speed_factor * self.ai_settings.item_direction
-    
-        

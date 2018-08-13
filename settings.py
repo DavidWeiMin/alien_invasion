@@ -37,7 +37,9 @@ class Settings():
         self.play_list = range(11)
 
         # 外星人射击时间间隔
-        self.fire_interval = 3
+        self.fire_interval = 8
+        # 外星人产生时间间隔
+        self.generate_interval = 1
 
         self.initialize_dynamic_settings()
 
