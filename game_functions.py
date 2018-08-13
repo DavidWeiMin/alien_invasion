@@ -1,7 +1,7 @@
 import sys
 import pygame
-from shipbullet import ShipBullet
-from alienbullet import AlienBullet
+from ship_bullet import ShipBullet
+from alien_bullet import AlienBullet
 from alien import Alien
 from time import sleep
 from item import Item
