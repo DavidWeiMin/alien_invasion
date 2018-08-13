@@ -24,8 +24,8 @@ class Settings():
         # 击中外星人得分的提高速度
         self.score_scale = 1.03
         # 每击杀外星人 10 个给予道具奖励
-        self.award_base = 1
-        self.level_base = 1
+        self.award_base = 20
+        self.level_base = 15
 
         # 无敌时间
         self.unstoppable_time = 3
