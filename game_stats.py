@@ -90,44 +90,45 @@ class Game_stats():
         '''保存用户的游戏数据'''
         self.stats_analysis()
         self.die_time.pop(0)
-        with open(self.ai_settings.filename,'a') as f:
-            # f.write('玩家,开始时间,结束时间,持续时间,得分,等级,击杀数,击杀率,道具产生,道具获取,道具拾取率,道具1,道具2,道具3,道具4,道具5,道具6,道具7,发射子弹,子弹击中,击中率,')
-            # f.write('player,start,end,duration,score,level,kill,kill ratio,generate item,get item,get item ratio,item 1,item 2,item 3,item 4,item 5,item 6,fire,hit,hit ratio,key,up,down,left,right,die 1,die 2,die 3,die 4,die 5,die 6,die 7,die 8,die 9\n')
-            # for i in range(len(self.die_time)):
-            #     f.write('第 ' + str(i + 1) + ' 次死亡')
-            #     if i + 1 < len(self.die_time):
-            #         f.write(',')
-            #     else:
-            #         f.write('\n')
-            f.write(str(self.player_name) + ',')
-            f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_start_time)) + ',')
-            f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_over_time)) + ',')
-            f.write(strftime('%M:%S',localtime(self.game_time)) + ',')
-            f.write(str(round(self.score)) + ',')
-            f.write(str(self.level) + ',')
-            f.write(str(self.killed_number) + ',')
-            f.write('%.2f%%' % (self.killed_ratio * 100) + ',')
-            f.write(str(self.generate_item_number) + ',')
-            f.write(str(self.get_item_number) + ',')
-            f.write('%.2f%%' % (self.get_item_ratio * 100) + ',')
-            f.write(str(self.item_1_cum) + ',')
-            f.write(str(self.item_2_cum) + ',')
-            f.write(str(self.item_3_cum) + ',')
-            f.write(str(self.item_4_cum) + ',')
-            f.write(str(self.item_5_cum) + ',')
-            f.write(str(self.item_6_cum) + ',')
-            f.write(str(self.item_7_cum) + ',')
-            f.write(str(self.generate_bullet_number) + ',')
-            f.write(str(self.bullet_killed_number) + ',')
-            f.write('%.2f%%' % (self.hit_ratio * 100) + ',')
-            f.write(str(self.key) + ',')
-            f.write(str(self.key_up) + ',')
-            f.write(str(self.key_down) + ',')
-            f.write(str(self.key_left) + ',')
-            f.write(str(self.key_right) + ',')
-            for i in range(len(self.die_time)):
-                f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.die_time[i])))
-                if i + 1 < len(self.die_time):
-                    f.write(',')
-                else:
-                    f.write('\n')
+        if self.game_time >= 60:
+            with open(self.ai_settings.filename,'a') as f:
+                # f.write('玩家,开始时间,结束时间,持续时间,得分,等级,击杀数,击杀率,道具产生,道具获取,道具拾取率,道具1,道具2,道具3,道具4,道具5,道具6,道具7,发射子弹,子弹击中,击中率,')
+                # f.write('player,start,end,duration,score,level,kill,kill ratio,generate item,get item,get item ratio,item 1,item 2,item 3,item 4,item 5,item 6,fire,hit,hit ratio,key,up,down,left,right,die 1,die 2,die 3,die 4,die 5,die 6,die 7,die 8,die 9\n')
+                # for i in range(len(self.die_time)):
+                #     f.write('第 ' + str(i + 1) + ' 次死亡')
+                #     if i + 1 < len(self.die_time):
+                #         f.write(',')
+                #     else:
+                #         f.write('\n')
+                f.write(str(self.player_name) + ',')
+                f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_start_time)) + ',')
+                f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_over_time)) + ',')
+                f.write(strftime('%M:%S',localtime(self.game_time)) + ',')
+                f.write(str(round(self.score)) + ',')
+                f.write(str(self.level) + ',')
+                f.write(str(self.killed_number) + ',')
+                f.write('%.2f%%' % (self.killed_ratio * 100) + ',')
+                f.write(str(self.generate_item_number) + ',')
+                f.write(str(self.get_item_number) + ',')
+                f.write('%.2f%%' % (self.get_item_ratio * 100) + ',')
+                f.write(str(self.item_1_cum) + ',')
+                f.write(str(self.item_2_cum) + ',')
+                f.write(str(self.item_3_cum) + ',')
+                f.write(str(self.item_4_cum) + ',')
+                f.write(str(self.item_5_cum) + ',')
+                f.write(str(self.item_6_cum) + ',')
+                f.write(str(self.item_7_cum) + ',')
+                f.write(str(self.generate_bullet_number) + ',')
+                f.write(str(self.bullet_killed_number) + ',')
+                f.write('%.2f%%' % (self.hit_ratio * 100) + ',')
+                f.write(str(self.key) + ',')
+                f.write(str(self.key_up) + ',')
+                f.write(str(self.key_down) + ',')
+                f.write(str(self.key_left) + ',')
+                f.write(str(self.key_right) + ',')
+                for i in range(len(self.die_time)):
+                    f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.die_time[i])))
+                    if i + 1 < len(self.die_time):
+                        f.write(',')
+                    else:
+                        f.write('\n')
