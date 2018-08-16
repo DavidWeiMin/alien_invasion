@@ -87,7 +87,7 @@ class Scoreboard():#todo加入道具效果倒计时
             for item_number in range(number):
                 self.item = Item(self.ai_settings,self.screen)
                 self.item.set_kind(kind)
-                self.item.load_image()
+                self.item.image = pygame.image.load('images/item' + str(self.item.kind) + '.png')
                 self.item.rect.left = position
                 position = self.item.rect.right
                 self.item.rect.top = self.score_rect.top

@@ -14,7 +14,8 @@ class Settings():
         self.ship_limit = 1
 
         # 子弹设置
-        self.bullet_height = 15
+        self.ship_bullet_height = 15
+        self.alien_bullet_height = 15
         self.alien_bullet_width = 3
         self.ship_bullet_color = 255,127,0
         self.alien_bullet_color = 60,60,60
@@ -24,7 +25,7 @@ class Settings():
         # 击中外星人得分的提高速度
         self.score_scale = 1.03
         # 每击杀外星人 10 个给予道具奖励
-        self.award_base = 20
+        self.award_base = 3
         self.level_base = 15
 
         # 无敌时间
@@ -49,12 +50,14 @@ class Settings():
         self.ship_bullet_width = 3
         self.ship_bullets_allowed = 10
         self.alien_bullets_allowed = 3
-        self.ship_speed_factor = 0.75
-        self.ship_bullet_speed_factor = 1.25
-        self.alien_bullet_speed_factor = 1.2
-        self.alien_speed_factor = 0.5
-        self.floating_drop_speed = 0.4
-        self.energy_bullet = True
+        self.ship_speed = 0.75
+        self.ship_bullet_speed = 1.25
+        self.alien_bullet_speed = 1.2
+        self.alien_speed = 0.5
+        self.item_speed = 0.5
+        self.alien_drop_speed = 0.4
+        self.item_drop_speed = 0.4
+        self.bullet_energy = True
         self.item_list = range(7)
         self.timekeep = {i:[] for i in self.item_list}
         self.effect_time = 10
@@ -68,11 +71,12 @@ class Settings():
 
     def increase_speed(self):
         '''提高速度设置和得分设置'''
-        self.ship_speed_factor *= self.speedup_scale 
-        self.ship_bullet_speed_factor *= self.speedup_scale
-        self.alien_bullet_speed_factor *= math.sqrt(self.speedup_scale)
-        self.alien_speed_factor *= self.speedup_scale
-        self.floating_drop_speed *= self.speedup_scale
+        self.ship_speed *= self.speedup_scale 
+        self.ship_bullet_speed *= self.speedup_scale
+        self.alien_bullet_speed *= math.sqrt(self.speedup_scale)
+        self.alien_speed *= self.speedup_scale
+        self.alien_drop_speed *= self.speedup_scale
+        self.item_drop_speed *= self.speedup_scale
         self.alien_points = self.score_scale * self.alien_points
         self.fire_interval /= self.speedup_scale
 

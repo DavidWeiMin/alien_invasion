@@ -7,5 +7,6 @@
     "python.formatting.provider": "black",
     "todo-tree.expanded": false,
     "todo-tree.flat": false,
-    "todo-tree.grouped": true
+    "todo-tree.grouped": true,
+    "wolf.disableHotModeWarning": true
 }

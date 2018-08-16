@@ -7,7 +7,6 @@
 双人模式
 '''
 #refactor根据代码规范完善代码格式
-#refactor根据实际所属关系重构类，alien)bullet应该是alien的属性
 #refactor简化函数参数调用，因为许多实例都含有其他实例
 
 import pygame
@@ -26,14 +25,14 @@ def run_game():
     ai_settings = Settings()
     screen = pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_height)) # 屏幕显示大小
     pygame.display.set_caption = ('Alien Invasion')
-
+    
     # 创建 Play 按钮
     play_button = Button(ai_settings,screen,'Play')                     
 
     # 创建一艘飞船
     ship = Ship(ai_settings,screen)
     # 创建一个用于储存子弹的编组
-    ship_bullets = pygame.sprite.Group()
+    ship.bullets = pygame.sprite.Group()
     # 创建一个外星人编组
     aliens = pygame.sprite.Group()
     # 创建一组道具
@@ -47,21 +46,19 @@ def run_game():
 
     # 创建外星人群
     stats.create_alien_time = time()
-    gf.create_fleet(ai_settings,screen,stats,aliens)
+    gf.create_alien(ai_settings,screen,stats,aliens)
 
     # 开始游戏主循环
     while True:
         # 监视键盘和鼠标事件
-        gf.check_events(ai_settings,screen,stats,play_button,ship,aliens,ship_bullets,items)
+        gf.check_events(ai_settings,screen,stats,ship,aliens,items)
 
         if stats.game_active:
             # 更新状态
-            ship.update()
-            gf.update_ship_bullets(ai_settings,screen,stats,sb,ship,aliens,ship_bullets,items)
-            gf.update_alien_bullets(ai_settings,stats,ship,aliens)
-            gf.update_items(ai_settings,screen,stats,ship,items)
-            gf.update_aliens(ai_settings,screen,stats,ship,aliens,ship_bullets)
+            gf.update(ai_settings,screen,stats,ship,aliens,items)
+            # 检测碰撞
+            gf.check_collisions(ai_settings,screen,stats,ship,aliens,items)
             
-        gf.update_screen(ai_settings,screen,stats,sb,ship,aliens,ship_bullets,play_button,items) 
+        gf.display(ai_settings,screen,stats,ship,aliens,items,sb,play_button) 
 
 run_game()
