@@ -36,14 +36,3 @@ class Alien(Floating):#todo加入不同类型的外星人（大小等）
         self.rect.x = self.x
         self.y += self.ai_settings.alien_drop_speed
         self.rect.y = self.y
-    
-    # def update_delete(self,aliens):
-    #     '''更新外星人子弹的位置以及删除屏幕外的子弹'''
-    #     for alien in aliens:
-    #         if alien.rect.top >= self.screen_rect.bottom:
-    #             aliens.remove(alien)
-    
-    # def update_bullets(self):
-    #     for bullet in self.bullets:
-    #         bullet.update_move()
-    #         bullet.update_delete(self.bullets)

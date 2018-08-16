@@ -10,7 +10,10 @@ class Bullet(pygame.sprite.Sprite):
         self.floating = floating
 
         # 在 (0,0) 处创建一个表示子弹的矩形，再设置正确的位置
-        self.rect = pygame.Rect(0,0,floating.bullet_width,floating.bullet_height)
+        if floating.__class__.__name__=='Alien':
+            self.rect = pygame.Rect(0,0,floating.ai_settings.alien_bullet_width,floating.ai_settings.alien_bullet_height)
+        elif floating.__class__.__name__=='Ship':
+            self.rect = pygame.Rect(0,0,floating.ai_settings.ship_bullet_width,floating.ai_settings.ship_bullet_height)
         self.rect.center = floating.rect.center
 
         # 存储用小数表示的子弹位置

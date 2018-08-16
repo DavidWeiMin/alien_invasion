@@ -47,13 +47,6 @@ class Ship(Floating):
         self.rect.centerx = self.center
         self.rect.bottom = self.bottom
 
-    # def update_bullets(self):
-    #     '''更新飞船子弹的位置以及删除屏幕外的子弹'''
-    #     # 更新子弹的位置
-    #     for bullet in self.bullets:
-    #         bullet.update_move()
-    #         bullet.update_delete(self.bullets)
-
     def center_ship(self):
         '''让飞船在屏幕底居中'''
         self.center = self.screen_rect.centerx

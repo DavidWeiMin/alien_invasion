@@ -307,22 +307,31 @@ if __name__=='__main__':
     import pygame
     import random
     class P(pygame.sprite.Sprite):
-        def __init__(self):
+        def __init__(self,a):
             super(P,self).__init__()
-            self.a = random.choice(range(7))
+            self.a = a
+            self.b = a.b
         def f(self):
             if self.a > 0:
                 return True
             else:
                 return False
+    
+    class A():
+        def __init__(self):
+            self.b = 10
+    a = A()
+    print(a.b)
     q = pygame.sprite.Group()
-    for i in range(10):
-        p = P()
-        q.add(p)
-    for i in q:
-        print(i.a)
-    print(len(q))
-    print(q.__class__.__name__)
+    p = P(a)
+    print(p.a.b)
+    q.add(p)
+    a.b = 5
+    print(p.a.b)
+    print(p.b)
+
+
+    
 
     
     

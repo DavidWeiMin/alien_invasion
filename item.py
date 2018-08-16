@@ -38,9 +38,3 @@ class Item(Floating):
         self.rect.x = self.x
         self.y += self.ai_settings.item_drop_speed
         self.rect.y = self.y
-    
-    # def update_delete(self,items):
-    #     for item in items:
-    #         if item.rect.top >= self.screen_rect.bottom:
-    #             items.remove(item)
-        
