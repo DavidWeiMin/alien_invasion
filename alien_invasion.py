@@ -7,12 +7,11 @@
 双人模式
 '''
 #refactor根据代码规范完善代码格式
-#refactor简化函数参数调用，因为许多实例都含有其他实例
 
 import pygame
 from settings import Settings
 from ship import Ship
-from game_stats import Game_stats
+from game_stats import Game_Stats
 from button import Button
 from scoreboard import Scoreboard
 from item import Item
@@ -20,12 +19,14 @@ from time import time
 import game_functions as gf
 
 def run_game():
+    '''运行游戏'''
+
     # 初始化游戏并创建一个屏幕对象
     pygame.init()
     ai_settings = Settings()
     screen = pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_height)) # 屏幕显示大小
     pygame.display.set_caption = ('Alien Invasion')
-    
+
     # 创建 Play 按钮
     play_button = Button(ai_settings,screen,'Play')                     
 
@@ -39,7 +40,7 @@ def run_game():
     items = pygame.sprite.Group()
 
     # 创建一个用于储存游戏统计信息的对象
-    stats = Game_stats(ai_settings)
+    stats = Game_Stats(ai_settings)
 
     # 创建记分牌
     sb = Scoreboard(ai_settings,screen,stats)

@@ -63,7 +63,7 @@ def check_keydown_events(event,ai_settings,screen,stats,ship,aliens,state,items)
             ai_settings.alien_drop_speed /= 2 # 外星人下降速度除以 2
             ai_settings.item_drop_speed /= 2 # 外星人下降速度除以 2
             ai_settings.timekeep[6].append((time()))
-    elif event.key == pygame.K_p:
+    elif event.key == pygame.K_p:#todo 修复bug：暂停或死亡时道具效果仍在倒计时，应当停止计时
         if stats.game_active:
             pygame.mixer.music.pause()
         else:
@@ -150,7 +150,7 @@ def update(ai_settings,screen,stats,ship,aliens,items):
     for alien in aliens:
         alien.update_move()
         alien.update_bullets()
-
+        
     update_direction(ai_settings,items)
     update_delete(items)
     for item in items:
@@ -302,38 +302,3 @@ def check_ship_items_collisions(ai_settings,stats,ship,items):
 def check_bullets_bullets_collisions(ai_settings,ship,aliens):
     for alien in aliens:
         pygame.sprite.groupcollide(ship.bullets,alien.bullets,ai_settings.bullet_energy,True)
-
-if __name__=='__main__':
-    import pygame
-    import random
-    class P(pygame.sprite.Sprite):
-        def __init__(self,a):
-            super(P,self).__init__()
-            self.a = a
-            self.b = a.b
-        def f(self):
-            if self.a > 0:
-                return True
-            else:
-                return False
-    
-    class A():
-        def __init__(self):
-            self.b = 10
-    a = A()
-    print(a.b)
-    q = pygame.sprite.Group()
-    p = P(a)
-    print(p.a.b)
-    q.add(p)
-    a.b = 5
-    print(p.a.b)
-    print(p.b)
-
-
-    
-
-    
-    
-    
-

@@ -4,11 +4,24 @@ from ship import Ship
 from item import Item
 from time import time
 
-class Scoreboard():#todo加入道具效果倒计时
-    '''显示得分信息的类'''
+class Scoreboard():
+    '''数据展示面板类
+    
+    用于在游戏界面展示需要的实时信息，比如得分，道具拥有情况，道具效果倒计时。
+    '''
+
 
     def __init__(self,ai_settings,screen,stats):
-        '''初始化显示得分涉及的属性'''
+        '''初始化
+        
+        初始化得分，道具等信息
+        
+        Arguments:
+            ai_settings {Settings 对象} -- [description]
+            screen {Screen 对象} -- [description]
+            stats {Game_Stats 对象} -- [description]
+        '''
+
         self.screen = screen
         self.screen_rect = screen.get_rect()
         self.ai_settings = ai_settings
@@ -28,7 +41,11 @@ class Scoreboard():#todo加入道具效果倒计时
         self.prep_all()
 
     def prep_score(self):
-        '''将得分转换为一副渲染的图像'''
+        '''渲染得分图像
+        
+        [description]
+        '''
+
         self.stats.stats_analysis()
         rounded_score = int(round(self.stats.adjust_score))
         rounded_score = '{:,}'.format(rounded_score)
@@ -41,7 +58,11 @@ class Scoreboard():#todo加入道具效果倒计时
         self.score_rect.top = 15
 
     def prep_highest_score(self):
-        '''将最高得分转换为渲染的图像'''
+        '''渲染最高分图像
+        
+        [description]
+        '''
+
         rounded_highest_score = int(round(self.stats.adjust_highest_score))
         rounded_highest_score = '{:,}'.format(rounded_highest_score)
         highest_score_str = str('Highest Score:%s' % rounded_highest_score)
@@ -53,7 +74,11 @@ class Scoreboard():#todo加入道具效果倒计时
         self.highest_score_rect.top = self.score_rect.top
 
     def prep_level(self):
-        '''将等级转换为渲染的图像'''
+        '''渲染游戏等级图像
+        
+        [description]
+        '''
+
         self.level_image = self.font.render('Level:%s' % str(self.stats.level),True,self.text_color,self.ai_settings.bg_color)
 
         # 设置等级图像位置
@@ -61,17 +86,25 @@ class Scoreboard():#todo加入道具效果倒计时
         self.level_rect.right = self.score_rect.left - 10
         self.level_rect.top = self.score_rect.top
     
-    def prep_hits(self):
-        '''将击杀数转换为渲染的图像'''
-        self.hits_image = self.font.render('Kill:%s' % str(self.stats.killed_number),True,self.text_color,self.ai_settings.bg_color)
+    def prep_kills(self):
+        '''渲染击杀数图像
+        
+        [description]
+        '''
+
+        self.kills_image = self.font.render('Kill:%s' % str(self.stats.killed_number),True,self.text_color,self.ai_settings.bg_color)
 
         # 设置击杀数图像位置
-        self.hits_rect = self.hits_image.get_rect()
-        self.hits_rect.right = self.level_rect.left - 10
-        self.hits_rect.top = self.level_rect.top
+        self.kills_rect = self.kills_image.get_rect()
+        self.kills_rect.right = self.level_rect.left - 10
+        self.kills_rect.top = self.level_rect.top
 
     def prep_item(self):
-        '''准备道具图像'''
+        '''渲染道具图像
+        
+        [description]
+        '''
+
         for key,value in self.ai_settings.timekeep.items():
             for j in value:
                 self.count_down[key].append(str(round(self.ai_settings.effect_time + j - time(),1)))
@@ -97,19 +130,27 @@ class Scoreboard():#todo加入道具效果倒计时
                 self.items.add(self.item)
     
     def prep_all(self):
-        '''准备所有图像'''
+        '''渲染所有图像
+        
+        [description]
+        '''
+
         self.prep_score()
         self.prep_level()
         self.prep_highest_score()
-        self.prep_hits()
+        self.prep_kills()
         self.prep_item()
 
     def show(self):
-        '''在屏幕上显示'''
+        '''显示渲染的图像
+        
+        [description]
+        '''
+
         self.screen.blit(self.score_image,self.score_rect)
         self.screen.blit(self.highest_score_image,self.highest_score_rect)
         self.screen.blit(self.level_image,self.level_rect)
-        self.screen.blit(self.hits_image,self.hits_rect)
+        self.screen.blit(self.kills_image,self.kills_rect)
         # 绘制道具
         self.items.draw(self.screen)
         for i in self.ai_settings.timekeep:

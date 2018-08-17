@@ -3,6 +3,14 @@ from floating import Floating
 from time import time,sleep
 
 class Ship(Floating):
+    '''表示单个飞船的类
+    
+    [description]
+    
+    Arguments:
+        Floating {Floating 对象} -- Ship 的父类
+    '''
+
 
     def __init__(self,ai_settings,screen):
         '''初始化飞船并设置初始位置'''

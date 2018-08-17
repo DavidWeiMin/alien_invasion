@@ -3,11 +3,26 @@ import random
 from floating import Floating
 
 class Item(Floating):
-    '''表示单个道具的类'''
+    '''表示单个道具的类
+    
+    [description]
+    
+    Arguments:
+        Floating {Floating 对象} -- 可能是 Ship 对象，或者是 Alien 对象
+    '''
+
     count = 0
 
     def __init__(self,ai_settings,screen):
-        '''初始化道具并设置其起始位置'''
+        '''初始化道具并设置其起始位置
+        
+        [description]
+        
+        Arguments:
+            ai_settings {Settings 对象} -- [description]
+            screen {Screen 对象} -- [description]
+        '''
+
         super(Item,self).__init__(ai_settings,screen)
         # 道具属性
         self.direction = ai_settings.item_direction
@@ -25,7 +40,14 @@ class Item(Floating):
         self.y = float(self.rect.y)
 
     def set_kind(self,kind):
-        '''手动设置道具种类'''
+        '''手动设置道具种类
+        
+        用于统计游戏数据
+        
+        Arguments:
+            kind {int} -- 表示道具所属的种类
+        '''
+
         self.kind = kind
     
     def caculate_number(self):
@@ -33,7 +55,11 @@ class Item(Floating):
         Item.count += 1
     
     def update_move(self):
-        '''向左或向右移动物体'''
+        '''更新道具的移动
+        
+        [description]
+        '''
+
         self.x += self.speed * self.ai_settings.item_direction
         self.rect.x = self.x
         self.y += self.ai_settings.item_drop_speed

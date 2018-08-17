@@ -1,10 +1,16 @@
 import time
 import math
 class Settings():
-    '''存储《外星人入侵》的所有设置的类'''
+    '''存储《外星人入侵》的所有设置的类
+    
+    包括屏幕，飞船，子弹，外星人，道具，计分等设置
+    '''
 
     def __init__(self):
-        '''初始化游戏的静态设置'''
+        '''初始化静态设置
+        
+        静态设置是游戏过程中不发生改变的设置
+        '''
         # 屏幕设置
         self.screen_width = 1200
         self.screen_height = 666
@@ -25,7 +31,7 @@ class Settings():
         # 击中外星人得分的提高速度
         self.score_scale = 1.03
         # 每击杀外星人 10 个给予道具奖励
-        self.award_base = 3
+        self.award_base = 20
         self.level_base = 15
 
         # 无敌时间
@@ -46,7 +52,10 @@ class Settings():
 
 
     def initialize_dynamic_settings(self):
-        '''初始化随游戏进行而变化的动态设置'''
+        '''初始化动态设置
+        
+        随游戏进行而发生变化的设置
+        '''
         self.ship_bullet_width = 3
         self.ship_bullets_allowed = 10
         self.alien_bullets_allowed = 3
@@ -70,7 +79,7 @@ class Settings():
         self.alien_points = 1
 
     def increase_speed(self):
-        '''提高速度设置和得分设置'''
+        '''提高游戏等级'''
         self.ship_speed *= self.speedup_scale 
         self.ship_bullet_speed *= self.speedup_scale
         self.alien_bullet_speed *= math.sqrt(self.speedup_scale)
