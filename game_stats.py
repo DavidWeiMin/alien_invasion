@@ -105,7 +105,7 @@ class Game_Stats():
 
         self.stats_analysis()
         self.die_time.pop(0)
-        if self.game_time >= 6:
+        if self.game_time >= 60:
             with open(self.ai_settings.filename,'a') as f:
                 f.write(str(self.player_name) + ',')
                 f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_start_time)) + ',')
