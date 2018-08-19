@@ -17,6 +17,11 @@ from scoreboard import Scoreboard
 from item import Item
 from time import time
 import game_functions as gf
+import cProfile
+import pstats
+import os
+import memory_profiler
+
 
 def run_game():
     '''运行游戏'''
@@ -62,4 +67,12 @@ def run_game():
             
         gf.display(ai_settings,screen,stats,ship,aliens,items,sb,play_button) 
 
-run_game()
+# run_game()
+cProfile.run('run_game()',filename='result.prof')
+p = pstats.Stats('result.prof')
+p.sort_stats('time').print_stats()
+os.chdir('d:\\Documents\\GitHub\\alien_invasion')
+# memory_profiler.os.system('run alien_invasion.py')
+# os.system('mprof run alien_invasion.py')
+# os.system('mprof plot')
+os.popen('python E:\Anaconda\Lib\site-packages\gprof2dot.py -f pstats result.prof | dot -Tpng -o result.png')

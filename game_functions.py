@@ -247,12 +247,14 @@ def check_collisions(ai_settings,screen,stats,ship,aliens,items):
     check_bullets_bullets_collisions(ai_settings,ship,aliens)
 
 def check_bullets_ship_collisions(ai_settings,stats,ship,aliens):
+    collisions = False
     for alien in aliens:
         collisions = pygame.sprite.spritecollideany(ship,alien.bullets)
-        if collisions and (time() - stats.die_time[-1] > ai_settings.unstoppable_time):
-            if len(ai_settings.timekeep[5]) == 0 or (time() - ai_settings.timekeep[5][0] > ai_settings.effect_time):
-                ship.hit(stats)
+        if collisions:
             break
+    if collisions and (time() - stats.die_time[-1] > ai_settings.unstoppable_time):
+        if len(ai_settings.timekeep[5]) == 0 or (time() - ai_settings.timekeep[5][0] > ai_settings.effect_time):
+            ship.hit(stats)
 
 def check_bullets_aliens_collisions(ai_settings,screen,stats,bullets,aliens,items):
     '''响应子弹与外星人的碰撞'''

@@ -78,4 +78,4 @@ class Ship(Floating):
     def play_die(self):
         pygame.mixer.music.load('sounds/die music.mp3')
         pygame.mixer.music.play(loops=-1,start=90.6)
-        sleep(6)
+        sleep(3)
