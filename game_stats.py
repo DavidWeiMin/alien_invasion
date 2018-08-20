@@ -45,7 +45,7 @@ class Game_Stats():
         self.generate_bullet_number = 0
         self.bullet_killed_number = 0
         self.die_time = [time()]
-        self.player_name = 'wyt'
+        self.player_name = 'dr'
         self.game_start_time = time()
         self.game_over_time = 0
         self.which = 1
@@ -111,7 +111,7 @@ class Game_Stats():
                 f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_start_time)) + ',')
                 f.write(strftime('%Y-%m-%d %H:%M:%S',localtime(self.game_over_time)) + ',')
                 f.write(strftime('%M:%S',localtime(self.game_time)) + ',')
-                f.write(str(round(self.score)) + ',')
+                f.write(str(round(self.adjust_score)) + ',')
                 f.write(str(self.level) + ',')
                 f.write(str(self.killed_number) + ',')
                 f.write('%.2f%%' % (self.killed_ratio * 100) + ',')
